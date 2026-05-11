@@ -1,5 +1,14 @@
-REINO DA SORTE - V3 CORRIGIDA COMPLETA
+REINO DA SORTE - V3.1 PROFISSIONAL
 
-Substitua index.html no GitHub. Envie fundo-oficial.jpg também.
-Senha ADM: 1234
-Código: REINO2026
+Correções:
+- Organização por ordem alfabética.
+- Melhor extração de nome + telefone em linhas separadas.
+- Nome e contato clicáveis para abrir WhatsApp.
+- Logo com fundo branco, sem fundo preto pesado.
+- Botões padronizados em azul/dourado/claro/vermelho apenas para apagar.
+- Layout e alinhamento ajustados.
+
+Substitua no GitHub:
+- index.html
+- fundo-oficial.jpg
+- logo-reino-da-sorte.jpeg
