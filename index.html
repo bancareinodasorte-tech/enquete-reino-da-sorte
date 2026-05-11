@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enquete Oficial — Reino da Sorte</title>
+  <style>
+    :root{
+      --azul:#061b4e;
+      --azul2:#0b2e78;
+      --dourado:#f6c74a;
+      --dourado2:#ffe28a;
+      --verde:#22c55e;
+      --vermelho:#ef4444;
+      --branco:#ffffff;
+      --cinza:#eef3ff;
+      --texto:#12213d;
+      --sombra:0 18px 45px rgba(0,0,0,.22);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255,226,138,.22), transparent 30%),
+        linear-gradient(160deg, #021033, #06215d 48%, #03102e);
+      color:var(--texto);
+      min-height:100vh;
+      padding:18px;
+    }
+
+    .app{
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    .hero{
+      background:linear-gradient(160deg, rgba(255,255,255,.98), rgba(238,243,255,.96));
+      border:2px solid rgba(246,199,74,.65);
+      border-radius:28px;
+      padding:22px;
+      text-align:center;
+      box-shadow:var(--sombra);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      background:radial-gradient(circle, rgba(246,199,74,.16), transparent 55%);
+      pointer-events:none;
+    }
+
+    .logo{
+      width:155px;
+      height:155px;
+      object-fit:contain;
+      border-radius:26px;
+      background:#000;
+      padding:6px;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      position:relative;
+      z-index:1;
+    }
+
+    h1{
+      margin:14px 0 6px;
+      color:var(--azul);
+      font-size:30px;
+      letter-spacing:.4px;
+      position:relative;
+      z-index:1;
+    }
+
+    .sub{
+      margin:0 auto;
+      max-width:720px;
+      color:#3c4b69;
+      font-size:15px;
+      line-height:1.45;
+      position:relative;
+      z-index:1;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-top:12px;
+      padding:9px 14px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--azul),var(--azul2));
+      color:white;
+      font-weight:800;
+      font-size:13px;
+      border:1px solid rgba(246,199,74,.7);
+      position:relative;
+      z-index:1;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.98);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 12px 28px rgba(0,0,0,.15);
+      border:1px solid rgba(246,199,74,.34);
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      color:var(--azul);
+      font-size:21px;
+    }
+
+    .option-card{
+      cursor:pointer;
+      transition:.18s;
+      border:2px solid transparent;
+      position:relative;
+    }
+
+    .option-card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(246,199,74,.85);
+    }
+
+    .option-card.selected{
+      border-color:var(--verde);
+      box-shadow:0 0 0 4px rgba(34,197,94,.16), 0 12px 28px rgba(0,0,0,.15);
+    }
+
+    .option-card.selected:after{
+      content:"✓ Selecionada";
+      position:absolute;
+      top:14px;
+      right:14px;
+      background:var(--verde);
+      color:white;
+      padding:7px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .day{
+      background:linear-gradient(135deg,#f8fbff,#eef3ff);
+      border-left:5px solid var(--dourado);
+      border-radius:16px;
+      padding:12px;
+      margin:10px 0;
+    }
+
+    .day strong{
+      display:block;
+      color:var(--azul);
+      font-size:16px;
+      margin-bottom:5px;
+    }
+
+    .money{
+      font-weight:900;
+      color:#0b2e78;
+    }
+
+    .bonus-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .bonus-option{
+      padding:14px;
+      border-radius:18px;
+      background:#f8fbff;
+      border:2px solid #dbe7ff;
+      cursor:pointer;
+      transition:.18s;
+    }
+
+    .bonus-option.selected{
+      border-color:var(--verde);
+      background:#f0fff5;
+    }
+
+    label{
+      display:block;
+      font-weight:800;
+      color:var(--azul);
+      margin:12px 0 7px;
+    }
+
+    input, textarea, select{
+      width:100%;
+      padding:14px;
+      border:1.5px solid #cbd8f2;
+      border-radius:16px;
+      font-size:16px;
+      outline:none;
+      background:#fff;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .counter{
+      text-align:right;
+      font-size:12px;
+      color:#5a6680;
+      margin-top:4px;
+    }
+
+    .progress-box{
+      margin-top:18px;
+      background:rgba(255,255,255,.98);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 12px 28px rgba(0,0,0,.15);
+      border:1px solid rgba(246,199,74,.34);
+    }
+
+    .progress-title{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      font-weight:900;
+      color:var(--azul);
+      margin-bottom:10px;
+    }
+
+    .bar{
+      width:100%;
+      height:18px;
+      background:#dbe7ff;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar span{
+      display:block;
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--dourado),var(--verde));
+      transition:.3s;
+    }
+
+    .actions{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      padding:15px 18px;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.18s;
+    }
+
+    .btn-primary{
+      flex:1;
+      background:linear-gradient(135deg,var(--dourado),var(--dourado2));
+      color:#082052;
+      box-shadow:0 10px 22px rgba(246,199,74,.26);
+    }
+
+    .btn-primary:hover{transform:translateY(-1px)}
+
+    .btn-secondary{
+      background:#eef3ff;
+      color:var(--azul);
+    }
+
+    .success{
+      display:none;
+      margin-top:14px;
+      background:#eafff1;
+      color:#166534;
+      border:1px solid #86efac;
+      padding:14px;
+      border-radius:16px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .error{
+      display:none;
+      margin-top:14px;
+      background:#fff1f2;
+      color:#991b1b;
+      border:1px solid #fecdd3;
+      padding:14px;
+      border-radius:16px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .admin-area{
+      display:none;
+      margin-top:18px;
+      background:#fff;
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--sombra);
+      border:2px solid rgba(246,199,74,.6);
+    }
+
+    .admin-top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .admin-table-wrap{
+      overflow:auto;
+      margin-top:12px;
+      border-radius:16px;
+      border:1px solid #dbe7ff;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+      font-size:14px;
+    }
+
+    th,td{
+      padding:11px;
+      border-bottom:1px solid #e6eeff;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    th{
+      background:#061b4e;
+      color:white;
+      position:sticky;
+      top:0;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 9px;
+      border-radius:999px;
+      background:#eef3ff;
+      color:#061b4e;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .small{
+      color:#5a6680;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .footer{
+      color:#d9e6ff;
+      text-align:center;
+      margin:22px 0 5px;
+      font-size:13px;
+    }
+
+    @media(max-width:760px){
+      body{padding:12px}
+      .grid{grid-template-columns:1fr}
+      h1{font-size:24px}
+      .logo{width:125px;height:125px}
+      .bonus-row{grid-template-columns:1fr}
+      .option-card.selected:after{
+        position:static;
+        display:inline-block;
+        margin-bottom:10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <img class="logo" src="logo-reino-da-sorte.jpeg" alt="Logo Reino da Sorte">
+      <h1>Enquete Oficial — Reino da Sorte</h1>
+      <p class="sub">
+        Votação interna para vendedores. Escolha a melhor programação de sorteios, bônus e meta.
+        As respostas são privadas e somente a administração terá acesso aos detalhes.
+      </p>
+      <span class="badge">Votação privada • Grupo de vendedores</span>
+    </section>
+
+    <section class="progress-box">
+      <div class="progress-title">
+        <span>Participação geral</span>
+        <span id="progressText">0 de 0 responderam</span>
+      </div>
+      <div class="bar"><span id="progressBar"></span></div>
+      <p class="small">
+        Este contador mostra apenas quantos responderam. Não mostra qual opção está ganhando para não influenciar os votos.
+      </p>
+    </section>
+
+    <form id="voteForm">
+      <div class="grid">
+        <div class="card">
+          <h2>Dados do vendedor</h2>
+          <label for="nome">Nome do vendedor</label>
+          <input id="nome" required placeholder="Digite seu nome completo">
+
+          <label for="telefone">Telefone/WhatsApp</label>
+          <input id="telefone" required placeholder="Ex: (88) 9 9999-9999">
+
+          <label for="codigo">Código de acesso</label>
+          <input id="codigo" required placeholder="Digite o código enviado no grupo">
+          <p class="small">
+            Código padrão inicial: <strong>REINO2026</strong>. Depois você pode trocar no arquivo.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Sugestão privada</h2>
+          <label for="sugestao">Escreva uma sugestão curta</label>
+          <textarea id="sugestao" maxlength="1000" placeholder="Sua sugestão ficará visível apenas para o ADM."></textarea>
+          <div class="counter"><span id="charCount">0</span>/1000 caracteres</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card option-card" data-vote="Opção 1 — Quarta e Sábado">
+          <h2>Opção 1 — Quarta e Sábado</h2>
+
+          <div class="day">
+            <strong>Quarta-feira</strong>
+            Principal <span class="money">R$ 1.500,00</span><br>
+            +3 Extras de <span class="money">R$ 100,00</span>
+          </div>
+
+          <div class="day">
+            <strong>Sábado</strong>
+            Principal <span class="money">R$ 2.000,00</span><br>
+            +4 Extras de <span class="money">R$ 100,00</span>
+          </div>
+        </div>
+
+        <div class="card option-card" data-vote="Opção 2 — Terça, Quinta e Sábado">
+          <h2>Opção 2 — Terça, Quinta e Sábado</h2>
+
+          <div class="day">
+            <strong>Terça-feira</strong>
+            Principal <span class="money">R$ 1.000,00</span><br>
+            +3 Extras de <span class="money">R$ 100,00</span>
+          </div>
+
+          <div class="day">
+            <strong>Quinta-feira</strong>
+            Principal <span class="money">R$ 1.500,00</span><br>
+            +3 Extras de <span class="money">R$ 100,00</span>
+          </div>
+
+          <div class="day">
+            <strong>Sábado</strong>
+            Principal <span class="money">R$ 2.000,00</span><br>
+            +3 Extras de <span class="money">R$ 200,00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <h2>Bônus | % | Meta</h2>
+        <div class="bonus-row">
+          <div class="bonus-option" data-bonus="1ª — 10b | 25% | Meta 45b (% conta do +35)">
+            <strong>1ª opção</strong><br>
+            10b | 25% | Meta 45b<br>
+            <span class="small">(% conta do +35)</span>
+          </div>
+
+          <div class="bonus-option" data-bonus="2ª — 15b | 25% | Meta 75b (% conta do +60)">
+            <strong>2ª opção</strong><br>
+            15b | 25% | Meta 75b<br>
+            <span class="small">(% conta do +60)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit">Enviar meu voto</button>
+        <button class="btn-secondary" type="button" onclick="abrirAdmin()">Área ADM</button>
+      </div>
+
+      <div class="success" id="successBox">✅ Voto enviado com sucesso. Obrigado pela sua participação!</div>
+      <div class="error" id="errorBox"></div>
+    </form>
+
+    <section class="admin-area" id="adminArea">
+      <div class="admin-top">
+        <div>
+          <h2 style="margin:0;color:var(--azul)">Painel ADM</h2>
+          <p class="small" style="margin:4px 0 0">Resultados detalhados apenas para administração.</p>
+        </div>
+        <div>
+          <button class="btn-secondary" onclick="exportarCSV()">Exportar CSV</button>
+          <button class="btn-secondary" onclick="limparTudo()">Limpar respostas</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Total</h2>
+          <span class="pill" id="adminTotal">0 respostas</span>
+        </div>
+        <div class="card">
+          <h2>Faltam responder</h2>
+          <span class="pill" id="adminFaltam">0 vendedores</span>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Voto</th>
+              <th>Bônus</th>
+              <th>Sugestão privada</th>
+            </tr>
+          </thead>
+          <tbody id="adminRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">
+      REINO DA SORTE • Sistema interno de votação
+    </div>
+  </div>
+
+  <script>
+    /*
+      CONFIGURAÇÃO RÁPIDA:
+      1) totalVendedores: coloque o total de vendedores do grupo.
+      2) codigoAcesso: troque para um código privado.
+      3) senhaAdm: troque para sua senha de administrador.
+
+      IMPORTANTE:
+      Esta versão salva no próprio aparelho/navegador usando localStorage.
+      Para usar com todos os vendedores em celulares diferentes e o ADM ver tudo junto online,
+      a próxima etapa é ligar este HTML ao Firebase/Supabase.
+    */
+    const CONFIG = {
+      totalVendedores: 57,
+      codigoAcesso: "REINO2026",
+      senhaAdm: "1234"
+    };
+
+    let votoSelecionado = "";
+    let bonusSelecionado = "";
+
+    const respostas = () => JSON.parse(localStorage.getItem("respostas_enquete_reino") || "[]");
+    const salvarRespostas = (lista) => localStorage.setItem("respostas_enquete_reino", JSON.stringify(lista));
+
+    document.querySelectorAll(".option-card").forEach(card => {
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        votoSelecionado = card.dataset.vote;
+      });
+    });
+
+    document.querySelectorAll(".bonus-option").forEach(card => {
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".bonus-option").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        bonusSelecionado = card.dataset.bonus;
+      });
+    });
+
+    document.getElementById("sugestao").addEventListener("input", function(){
+      document.getElementById("charCount").textContent = this.value.length;
+    });
+
+    document.getElementById("voteForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+      const codigo = document.getElementById("codigo").value.trim();
+      const sugestao = document.getElementById("sugestao").value.trim();
+
+      erro("");
+
+      if(codigo !== CONFIG.codigoAcesso){
+        return erro("Código de acesso incorreto.");
+      }
+
+      if(!votoSelecionado){
+        return erro("Escolha uma opção de dias e valores do sorteio.");
+      }
+
+      if(!bonusSelecionado){
+        return erro("Escolha uma opção de bônus/meta.");
+      }
+
+      const lista = respostas();
+
+      const jaVotou = lista.some(r => normalizar(r.telefone) === normalizar(telefone));
+      if(jaVotou){
+        return erro("Este telefone já registrou um voto neste aparelho/navegador.");
+      }
+
+      lista.push({
+        data: new Date().toLocaleString("pt-BR"),
+        nome,
+        telefone,
+        voto: votoSelecionado,
+        bonus: bonusSelecionado,
+        sugestao
+      });
+
+      salvarRespostas(lista);
+
+      document.getElementById("successBox").style.display = "block";
+      document.getElementById("errorBox").style.display = "none";
+      this.reset();
+      document.getElementById("charCount").textContent = "0";
+      document.querySelectorAll(".option-card,.bonus-option").forEach(c => c.classList.remove("selected"));
+      votoSelecionado = "";
+      bonusSelecionado = "";
+      atualizarProgresso();
+      atualizarAdmin();
+    });
+
+    function normalizar(txt){
+      return String(txt || "").replace(/\D/g,"");
+    }
+
+    function erro(msg){
+      const box = document.getElementById("errorBox");
+      if(!msg){
+        box.style.display = "none";
+        box.textContent = "";
+        return;
+      }
+      box.textContent = "⚠️ " + msg;
+      box.style.display = "block";
+      document.getElementById("successBox").style.display = "none";
+    }
+
+    function atualizarProgresso(){
+      const total = CONFIG.totalVendedores;
+      const respondidos = respostas().length;
+      const pct = total > 0 ? Math.min(100, Math.round((respondidos / total) * 100)) : 0;
+      document.getElementById("progressText").textContent = `${respondidos} de ${total} responderam`;
+      document.getElementById("progressBar").style.width = pct + "%";
+    }
+
+    function abrirAdmin(){
+      const senha = prompt("Digite a senha do ADM:");
+      if(senha !== CONFIG.senhaAdm){
+        alert("Senha incorreta.");
+        return;
+      }
+      document.getElementById("adminArea").style.display = "block";
+      atualizarAdmin();
+      document.getElementById("adminArea").scrollIntoView({behavior:"smooth"});
+    }
+
+    function atualizarAdmin(){
+      const lista = respostas();
+      const tbody = document.getElementById("adminRows");
+      tbody.innerHTML = "";
+
+      lista.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${escapeHtml(r.data)}</td>
+          <td>${escapeHtml(r.nome)}</td>
+          <td>${escapeHtml(r.telefone)}</td>
+          <td>${escapeHtml(r.voto)}</td>
+          <td>${escapeHtml(r.bonus)}</td>
+          <td>${escapeHtml(r.sugestao || "-")}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("adminTotal").textContent = `${lista.length} respostas`;
+      document.getElementById("adminFaltam").textContent = `${Math.max(CONFIG.totalVendedores - lista.length, 0)} vendedores`;
+    }
+
+    function exportarCSV(){
+      const lista = respostas();
+      if(!lista.length){
+        alert("Nenhuma resposta para exportar.");
+        return;
+      }
+
+      const linhas = [
+        ["Data","Nome","Telefone","Voto","Bonus","Sugestao privada"],
+        ...lista.map(r => [r.data, r.nome, r.telefone, r.voto, r.bonus, r.sugestao || ""])
+      ];
+
+      const csv = linhas.map(l => l.map(c => `"${String(c).replace(/"/g,'""')}"`).join(";")).join("\n");
+      const blob = new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8;"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "respostas-enquete-reino-da-sorte.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function limparTudo(){
+      if(confirm("Tem certeza que deseja apagar todas as respostas salvas neste navegador?")){
+        localStorage.removeItem("respostas_enquete_reino");
+        atualizarProgresso();
+        atualizarAdmin();
+      }
+    }
+
+    function escapeHtml(str){
+      return String(str || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    atualizarProgresso();
+    atualizarAdmin();
+  </script>
+</body>
+</html>
