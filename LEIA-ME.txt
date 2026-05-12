@@ -1,19 +1,14 @@
-REINO DA SORTE - V3.5 SEM MISTURAR NOMES
+REINO DA SORTE — V3.6 FINAL
 
-Correção principal:
-- O sistema não junta mais blocos grandes de texto como nome.
-- Busca apenas o nome mais próximo do telefone.
-- Limita nome a no máximo 4 palavras para evitar misturar vendedores.
-- Mantém pareamento por colunas somente quando as linhas de nomes são puras.
-- Mantém painel completo, OCR, votos, membros, faltantes, editar/excluir, WhatsApp e CSV.
+Incluído:
+- Gerenciador de enquetes
+- Estrutura para múltiplas enquetes
+- Seleção de participantes
+- Compartilhamento WhatsApp
+- Cadastro manual de membros
+- OCR de imagem/PDF
+- Painel ADM completo
+- Exportações CSV
+- Lista de faltantes
 
-IMPORTANTE:
-Depois de subir esta versão:
-1. Área ADM
-2. Cadastrar membros
-3. Limpar membros
-4. Importar o PDF/print novamente
-5. Pré-visualizar nomes
-6. Processar e salvar membros
-
-Se o PDF continuar sem nome correto, use o botão Editar para corrigir só os nomes/telefones necessários.
+Suba os arquivos no GitHub Pages substituindo os antigos.
