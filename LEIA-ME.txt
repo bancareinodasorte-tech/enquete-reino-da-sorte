@@ -1,28 +1,16 @@
-REINO DA SORTE - V3.2 COMPLETA CORRIGIDA
+REINO DA SORTE - V3.3 NOMES E E-MAIL CORRIGIDOS
 
-Esta é a versão completa, não é versão reduzida.
+Correções principais:
+- Melhor busca do nome real próximo ao telefone.
+- Captura e-mail quando existir no texto/PDF.
+- Pré-visualizar nomes antes de salvar.
+- Mantém painel completo: votos, membros, faltantes, OCR, editar/excluir, WhatsApp e exportação.
+- Usa fundo oficial e logo oficial.
 
-Inclui:
-- layout completo da enquete
-- painel ADM completo
-- votos
-- cadastro de membros
-- leitura de imagem/PDF por OCR
-- organização por ordem alfabética
-- correção automática de telefone BR
-- limpeza inteligente de nomes
-- editar membro
-- excluir membro
-- nome e telefone clicáveis para WhatsApp
-- lista de faltantes com botão cobrar
-- exportação CSV
-- fundo oficial azul
-- logo oficial com fundo branco
-
-Arquivos para subir no GitHub:
+Substitua no GitHub:
 - index.html
 - logo-reino-da-sorte.jpeg
 - fundo-oficial.jpg
 
-Senha ADM padrão: 1234
-Código de acesso padrão: REINO2026
+Senha ADM: 1234
+Código: REINO2026
