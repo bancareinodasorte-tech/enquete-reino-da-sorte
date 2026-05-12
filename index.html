@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enquete Oficial — Reino da Sorte V3.6.2</title>
+<title>Enquete Oficial — Reino da Sorte V3.7</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -455,7 +455,7 @@ function processarMembros(){
  const regs=montarRegistros(document.getElementById("membrosTexto").value);const porKey={};membros().forEach(m=>porKey[m.key]=m);
  let adicionados=0,atualizados=0,ignorados=0;
  regs.forEach(r=>{if(!telefoneValidoBR(r.key)){ignorados++;return}if(porKey[r.key]){porKey[r.key]={...porKey[r.key],nome:r.nome||porKey[r.key].nome,email:r.email||porKey[r.key].email||"",telefone:r.telefone,key:r.key,participa:porKey[r.key].participa!==false};atualizados++;}else{porKey[r.key]=r;adicionados++;}});
- salvarMembros(Object.values(porKey).map(m=>corrigirNomeRegistro(m)).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));
+ salvarMembros(corrigirDuplicadosV37(Object.values(porKey)));
  const msg=document.getElementById("membrosMsg");msg.style.display="block";msg.textContent=`✅ Membros processados. Adicionados: ${adicionados}. Atualizados: ${atualizados}. Ignorados: ${ignorados}.`;
  atualizarTudo();preVisualizarMembros();
 }
@@ -469,7 +469,7 @@ function renderMembros(){
  const tb=document.getElementById("membrosRows");tb.innerHTML="";const vks=new Set(votosDaEnquete().map(v=>v.telefoneKey));
  membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).forEach(m=>{const tr=document.createElement("tr");tr.innerHTML=`<td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.nome)}</a></td><td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.telefone)}</a></td><td>${h(m.email||"-")}</td><td>${m.participa===false?"❌ Não":"✅ Sim"}</td><td>${vks.has(m.key)?"✅ Votou":"⏳ Falta votar"}</td><td><div class="edit-row"><button class="btn-light" type="button" onclick="editarMembro('${m.key}')">Editar</button><button class="btn-light" type="button" onclick="toggleParticipa('${m.key}')">${m.participa===false?"Ativar":"Desativar"}</button><button class="btn-danger" type="button" onclick="excluirMembro('${m.key}')">Excluir</button></div></td>`;tb.appendChild(tr);});
 }
-function editarMembro(key){const lista=membros(),idx=lista.findIndex(m=>m.key===key);if(idx<0)return;const atual=lista[idx];const novoNome=prompt("Editar nome:",atual.nome);if(novoNome===null)return;const novoTelefone=prompt("Editar telefone:",atual.telefone);if(novoTelefone===null)return;const novoEmail=prompt("Editar e-mail opcional:",atual.email||"");if(novoEmail===null)return;const novaKey=chaveTelefone(novoTelefone);if(!telefoneValidoBR(novaKey)){alert("Telefone inválido.");return}lista[idx]={nome:novoNome.trim()||atual.nome,telefone:fmtTel(novaKey),email:novoEmail.trim(),key:novaKey,participa:atual.participa!==false};const porKey={};lista.forEach(m=>porKey[m.key]=m);salvarMembros(Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));atualizarTudo();}
+function editarMembro(key){const lista=membros(),idx=lista.findIndex(m=>m.key===key);if(idx<0)return;const atual=lista[idx];const novoNome=prompt("Editar nome:",atual.nome);if(novoNome===null)return;const novoTelefone=prompt("Editar telefone:",atual.telefone);if(novoTelefone===null)return;const novoEmail=prompt("Editar e-mail opcional:",atual.email||"");if(novoEmail===null)return;const novaKey=chaveTelefone(novoTelefone);if(!telefoneValidoBR(novaKey)){alert("Telefone inválido.");return}lista[idx]={nome:novoNome.trim()||atual.nome,telefone:fmtTel(novaKey),email:novoEmail.trim(),key:novaKey,participa:atual.participa!==false};const porKey={};lista.forEach(m=>porKey[m.key]=m);salvarMembros(corrigirDuplicadosV37(Object.values(porKey)));atualizarTudo();}
 function excluirMembro(key){if(!confirm("Excluir este membro da lista?"))return;salvarMembros(membros().filter(m=>m.key!==key));atualizarTudo();}
 function toggleParticipa(key){const lista=membros();const m=lista.find(x=>x.key===key);if(m){m.participa=!(m.participa!==false);salvarMembros(lista);atualizarTudo();}}
 function renderParticipantes(){
@@ -501,6 +501,177 @@ function copiarBaseMembros(){const txt=membros().sort((a,b)=>a.nome.localeCompar
 function limparVotos(){if(confirm("Apagar votos da enquete atual?")){const id=poll().id;salvarVotos(votos().filter(v=>v.pollId!==id));atualizarTudo();}}
 function limparMembros(){if(confirm("Apagar todos os membros cadastrados?")){localStorage.removeItem(LS_MEMBROS);atualizarTudo();}}
 function h(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
+
+/* ===== REFINO V3.7 — CONTATOS / NOMES / E-MAIL ===== */
+const NOME_POR_TELEFONE_V37 = {
+  "88981296930":"Alice Nabor",
+  "87991411939":"Cleyton Silva",
+  "88988330147":"José Eduardo",
+  "88981703564":"Dam",
+  "11993308587":"Dev",
+  "88988940412":"Ana Raissa",
+  "85988725043":"Kyara",
+  "88981612830":"Caeline",
+  "88981642062":"Elaine Mariano",
+  "88994943632":"Escritório Reino da Sorte",
+  "88982354554":"Giovanna",
+  "88981477848":"Jamilles Izidório",
+  "87999999999":"Junior Vendas",
+  "88988216885":"Márcia Silva",
+  "88988898619":"Maria Luana",
+  "88981176361":"Aline dos Maroto",
+  "88988019597":"O Graça Vendas",
+  "88988158745":"Samara",
+  "87933008587":"Suporte",
+  "88988656676":"Tacilary Andra",
+  "88981805250":"Taína Fideles",
+  "88981243042":"Tamiles Cristina",
+  "61999604657":"Valter Junior",
+  "88996263082":"Maria do Socorro",
+  "87991841301":"Vieira Junior",
+  "88988613539":"Yohani Alves"
+};
+
+const NOME_POR_EMAIL_V37 = {
+  "alicenabor991":"Alice Nabor",
+  "cleyton.reinodasorte":"Cleyton Silva",
+  "joseeduardovieiralemos":"José Eduardo",
+  "danr132540":"Dam",
+  "dev":"Dev",
+  "anaraissaleite571":"Ana Raissa",
+  "garciadossantosanakyara":"Kyara",
+  "caelinecoelhodeoliveira":"Caeline",
+  "elainemariano4678":"Elaine Mariano",
+  "bancareinodasorte":"Escritório Reino da Sorte",
+  "giovannajulia":"Giovanna",
+  "mariaizidoro23":"Jamilles Izidório",
+  "juniorsouzaj697":"Junior Vendas",
+  "davimarcia2650":"Márcia Silva",
+  "marialuanagaldino40":"Maria Luana",
+  "alineleite1210":"Aline dos Maroto",
+  "matheuscantor8850":"O Graça Vendas",
+  "samarasouza202626":"Samara",
+  "suporte":"Suporte",
+  "tacilaryandraryandra11":"Tacilary Andra",
+  "fidelestainafideles":"Taína Fideles",
+  "tamilescristina80":"Tamiles Cristina",
+  "mariadosocorredasilva":"Maria do Socorro",
+  "vieirajunior180":"Vieira Junior",
+  "yohanialves01":"Yohani Alves"
+};
+
+function normalizarNomeV37(nome){
+  return String(nome||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g," ")
+    .trim();
+}
+
+function nomePareceEmailOuLixoV37(nome){
+  const n = String(nome||"").trim();
+  const nn = normalizarNomeV37(n);
+  if(!n) return true;
+  if(/^contato\s+\d+/i.test(n)) return true;
+  if(/^membro\s+\d+/i.test(n)) return true;
+  if(/@|gmail|icloud|hotmail|outlook|yahoo|\.com|com\.br/i.test(n)) return true;
+  if(/\b(dispositivo autorizado|authorized device|e mail|email|telefone|whatsapp|status|users|member|membros|contato)\b/i.test(n)) return true;
+  if(nn.length < 3) return true;
+  if(/^\d+$/.test(nn)) return true;
+  return false;
+}
+
+function nomePorEmailV37(email){
+  const e = String(email||"").toLowerCase().trim();
+  if(!e) return "";
+  const prefix = e.split("@")[0].replace(/[^a-z0-9._-]/g,"").toLowerCase();
+
+  for(const chave in NOME_POR_EMAIL_V37){
+    if(prefix === chave || prefix.includes(chave) || chave.includes(prefix)){
+      return NOME_POR_EMAIL_V37[chave];
+    }
+  }
+
+  let nome = prefix
+    .replace(/\d+/g," ")
+    .replace(/[._-]+/g," ")
+    .replace(/\b(gmail|icloud|hotmail|outlook|yahoo|com|br)\b/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+
+  if(!nome || nome.length < 3) return "";
+  return nome.split(" ").map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
+}
+
+function corrigirNomeRegistro(reg){
+  const r = {...reg};
+  const porTelefone = NOME_POR_TELEFONE_V37[r.key] || "";
+  const porEmail = nomePorEmailV37(r.email);
+
+  if(porTelefone){
+    if(nomePareceEmailOuLixoV37(r.nome) || normalizarNomeV37(r.nome).length <= 10 || /^(maroto|vendas|cobertura)$/i.test(String(r.nome||"").trim())){
+      r.nome = porTelefone;
+    }
+  }
+
+  if(nomePareceEmailOuLixoV37(r.nome) && porEmail){
+    r.nome = porEmail;
+  }
+
+  if(nomePareceEmailOuLixoV37(r.nome)){
+    r.nome = "Contato " + String(r.key||"").slice(-4);
+  }
+
+  if(r.nome){
+    r.nome = String(r.nome).replace(/\s+/g," ").trim();
+  }
+
+  return r;
+}
+
+function corrigirDuplicadosV37(lista){
+  const porKey = {};
+  lista.forEach(item=>{
+    const r = corrigirNomeRegistro({...item});
+    if(!r.key) return;
+    if(!porKey[r.key]){
+      porKey[r.key] = r;
+    }else{
+      // Prioriza nome real contra nome genérico/e-mail
+      const atualRuim = nomePareceEmailOuLixoV37(porKey[r.key].nome);
+      const novoBom = !nomePareceEmailOuLixoV37(r.nome);
+      if(atualRuim && novoBom) porKey[r.key].nome = r.nome;
+      if(!porKey[r.key].email && r.email) porKey[r.key].email = r.email;
+      porKey[r.key].telefone = r.telefone || porKey[r.key].telefone;
+      porKey[r.key].participa = porKey[r.key].participa !== false;
+    }
+  });
+
+  // Evita nomes duplicados exatos: mantém, mas identifica pelo final do telefone se necessário
+  const contagemNome = {};
+  Object.values(porKey).forEach(r=>{
+    const nn = normalizarNomeV37(r.nome);
+    if(nn) contagemNome[nn] = (contagemNome[nn]||0)+1;
+  });
+
+  Object.values(porKey).forEach(r=>{
+    const nn = normalizarNomeV37(r.nome);
+    if(contagemNome[nn] > 1 && !/\d{4}$/.test(r.nome)){
+      r.nome = `${r.nome} (${String(r.key).slice(-4)})`;
+    }
+  });
+
+  return Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
+}
+
+// Sobrescreve a função de correção manual para aplicar o refinamento V3.7.
+function corrigirNomesAutomatico(){
+  const lista = corrigirDuplicadosV37(membros());
+  salvarMembros(lista);
+  atualizarTudo();
+  alert("Refino V3.7 aplicado: nomes por telefone/e-mail corrigidos, e-mails removidos da coluna Nome e duplicados tratados.");
+}
+
 init();
 </script>
 </body>

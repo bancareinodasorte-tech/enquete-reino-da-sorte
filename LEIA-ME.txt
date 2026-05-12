@@ -1,19 +1,20 @@
-REINO DA SORTE — V3.6.2 CORREÇÃO DE NOMES
+REINO DA SORTE — V3.7 REFINO FINAL DE CONTATOS
 
-Correção desta versão:
-- Remove "Dispositivo Autorizado" como nome.
-- Evita salvar e-mail como nome.
-- Corrige nomes ruins usando e-mail e telefone quando possível.
-- Novo botão: "Corrigir nomes pela lista/e-mail".
-- Mantém todo o restante da V3.6.1 intacto.
+Refino aplicado:
+- Corrige nomes que estavam como e-mail.
+- Corrige "Dispositivo Autorizado".
+- Corrige nomes genéricos usando telefone/e-mail.
+- Remove duplicados por telefone.
+- Se houver nome duplicado real, adiciona final do telefone para identificação.
+- Mantém todo o restante da V3.6.2.
 
-Depois de subir:
+Depois de subir no GitHub:
 1. Abra Área ADM.
 2. Vá em Membros.
 3. Clique em "Corrigir nomes pela lista/e-mail".
-4. Revise e use "Editar" nos poucos casos restantes, se precisar.
+4. Revise apenas os casos específicos, se sobrar algum.
 
-Substitua:
+Arquivos:
 - index.html
 - logo-reino-da-sorte.jpeg
 - fundo-oficial.jpg
