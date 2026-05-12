@@ -1,14 +1,19 @@
-REINO DA SORTE — V3.6 FINAL
+REINO DA SORTE — V3.6.2 CORREÇÃO DE NOMES
 
-Incluído:
-- Gerenciador de enquetes
-- Estrutura para múltiplas enquetes
-- Seleção de participantes
-- Compartilhamento WhatsApp
-- Cadastro manual de membros
-- OCR de imagem/PDF
-- Painel ADM completo
-- Exportações CSV
-- Lista de faltantes
+Correção desta versão:
+- Remove "Dispositivo Autorizado" como nome.
+- Evita salvar e-mail como nome.
+- Corrige nomes ruins usando e-mail e telefone quando possível.
+- Novo botão: "Corrigir nomes pela lista/e-mail".
+- Mantém todo o restante da V3.6.1 intacto.
 
-Suba os arquivos no GitHub Pages substituindo os antigos.
+Depois de subir:
+1. Abra Área ADM.
+2. Vá em Membros.
+3. Clique em "Corrigir nomes pela lista/e-mail".
+4. Revise e use "Editar" nos poucos casos restantes, se precisar.
+
+Substitua:
+- index.html
+- logo-reino-da-sorte.jpeg
+- fundo-oficial.jpg
