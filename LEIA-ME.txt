@@ -1,23 +1,19 @@
-REINO DA SORTE - V3.4 NOMES REAIS CORRIGIDOS
+REINO DA SORTE - V3.5 SEM MISTURAR NOMES
 
 Correção principal:
-- Quando o OCR/PDF separa a lista em colunas, o sistema agora tenta parear:
-  Nome 1 + Telefone 1 + E-mail 1
-  Nome 2 + Telefone 2 + E-mail 2
-  e assim por diante.
+- O sistema não junta mais blocos grandes de texto como nome.
+- Busca apenas o nome mais próximo do telefone.
+- Limita nome a no máximo 4 palavras para evitar misturar vendedores.
+- Mantém pareamento por colunas somente quando as linhas de nomes são puras.
+- Mantém painel completo, OCR, votos, membros, faltantes, editar/excluir, WhatsApp e CSV.
 
-Também mantém:
-- painel completo
-- votação
-- painel ADM
-- membros permitidos
-- faltantes
-- OCR de imagem/PDF
-- edição/exclusão de membro
-- telefone clicável para WhatsApp
-- exportação CSV
-- fundo e logo oficiais
+IMPORTANTE:
+Depois de subir esta versão:
+1. Área ADM
+2. Cadastrar membros
+3. Limpar membros
+4. Importar o PDF/print novamente
+5. Pré-visualizar nomes
+6. Processar e salvar membros
 
-Importante:
-Depois de subir esta versão, limpe a lista antiga de membros no painel ADM e importe novamente o PDF/print.
-Se a lista antiga continuar salva, ela continuará mostrando os nomes antigos "Contato 0000".
+Se o PDF continuar sem nome correto, use o botão Editar para corrigir só os nomes/telefones necessários.
