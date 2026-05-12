@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enquete Oficial — Reino da Sorte V3.3</title>
+<title>Enquete Oficial — Reino da Sorte V3.4</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -161,7 +161,7 @@ Ou tabela copiada com colunas Nome / Telefone / E-mail"></textarea>
 </div>
 <div class="preview" id="previewBox"></div>
 <div class="msg success" id="membrosMsg"></div>
-<p class="small">V3.3: corrigido para buscar nome real próximo do telefone e capturar e-mail quando existir.</p>
+<p class="small">V3.4: correção reforçada para listas em colunas: Nome / Telefone / E-mail, pareando por ordem quando o PDF separar as colunas.</p>
 </div>
 
 <div class="table-wrap">
@@ -282,40 +282,149 @@ function limparNome(txt,email,key){
  return palavras.map(p=>p.charAt(0).toUpperCase()+p.slice(1).toLowerCase()).join(" ");
 }
 
+function limparLinhaNomeCandidato(linha){
+ const email=extrairEmail(linha);
+ let s=String(linha||"");
+ s=s.replace(email||""," ");
+ s=s.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig," ");
+ s=s.replace(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g," ");
+ s=s.replace(/\b(nome|telefone|e-?mail|email|status|ações|acao|votos?|membros?|users?|member|administrador|administrator|online|offline|disponivel|disponível|visualizar|ajuda|grupo|whatsapp|contato|phone|contact|vendedor)\b/gi," ");
+ s=s.replace(/[@#*•✓✅❌]/g," ");
+ s=s.replace(/[-_:|,;()[\]{}<>]/g," ");
+ s=s.replace(/\s+/g," ").trim();
+ if(!s || s.length<2)return "";
+ if(!/[A-Za-zÀ-ÿ]/.test(s))return "";
+ return s.split(" ").filter(p=>/[A-Za-zÀ-ÿ]/.test(p)).map(p=>p.charAt(0).toUpperCase()+p.slice(1).toLowerCase()).join(" ");
+}
+
+function pareceNomeReal(nome){
+ const n=String(nome||"").trim();
+ if(!n)return false;
+ if(/^Contato\s+\d+/i.test(n))return false;
+ if(/^Membro\s+\d+/i.test(n))return false;
+ if(!/[A-Za-zÀ-ÿ]/.test(n))return false;
+ const palavras=n.split(/\s+/).filter(Boolean);
+ return palavras.length>=1 && n.length>=3;
+}
+
+function coletarColunas(texto){
+ const linhas=String(texto||"").split(/\n+/).map(l=>l.trim()).filter(Boolean);
+ const nomes=[], telefones=[], emails=[];
+ const seenN=new Set(), seenT=new Set(), seenE=new Set();
+
+ linhas.forEach(l=>{
+   const ems=l.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig)||[];
+   ems.forEach(e=>{
+     const low=e.toLowerCase();
+     if(!seenE.has(low)){emails.push(e);seenE.add(low);}
+   });
+
+   const tels=acharTelefones(l);
+   tels.forEach(t=>{
+     if(!seenT.has(t)){telefones.push(t);seenT.add(t);}
+   });
+
+   const nome=limparLinhaNomeCandidato(l);
+   if(nome && !seenN.has(nome.toLowerCase())){
+     nomes.push(nome);
+     seenN.add(nome.toLowerCase());
+   }
+ });
+
+ return {nomes,telefones,emails};
+}
+
+function escolherNomePorJanela(linhas,i,key,email){
+ let candidatos=[];
+
+ for(let j=i-1;j>=Math.max(0,i-8);j--){
+   const nome=limparLinhaNomeCandidato(linhas[j]);
+   if(nome)candidatos.push(nome);
+ }
+
+ for(let j=i+1;j<=Math.min(linhas.length-1,i+8);j++){
+   const nome=limparLinhaNomeCandidato(linhas[j]);
+   if(nome)candidatos.push(nome);
+ }
+
+ const bloco=linhas.slice(Math.max(0,i-4),Math.min(linhas.length,i+5)).join(" ");
+ const nomeBloco=limparNome(bloco,email,key);
+
+ if(pareceNomeReal(nomeBloco))candidatos.unshift(nomeBloco);
+
+ const melhor=candidatos.find(pareceNomeReal);
+ return melhor || "";
+}
+
 function montarRegistros(texto){
  const linhas=String(texto||"").split(/\n+/).map(l=>l.trim()).filter(Boolean);
  const registros=[];
- const used=new Set();
+ const usadoTel=new Set();
 
+ // 1) Tentativa normal: telefone e nome próximos, preservando o nome que estiver antes/depois.
  for(let i=0;i<linhas.length;i++){
    const tels=acharTelefones(linhas[i]);
    if(!tels.length)continue;
 
    tels.forEach(key=>{
-     if(used.has(i+"-"+key))return;
-     let janela=[];
-     for(let j=Math.max(0,i-4);j<=Math.min(linhas.length-1,i+4);j++){
-       janela.push(linhas[j]);
-     }
-     const bloco=janela.join(" ");
+     if(usadoTel.has(key))return;
+
+     const bloco=linhas.slice(Math.max(0,i-8),Math.min(linhas.length,i+9)).join(" ");
      const email=extrairEmail(bloco);
+     let nome=escolherNomePorJanela(linhas,i,key,email);
 
-     let nomeCandidatos=[];
-     for(let j=i-1;j>=Math.max(0,i-4);j--){
-       if(!acharTelefones(linhas[j]).length && !extrairEmail(linhas[j]) && !ehLinhaLixo(linhas[j])) nomeCandidatos.push(linhas[j]);
-     }
-     for(let j=i+1;j<=Math.min(linhas.length-1,i+4);j++){
-       if(!acharTelefones(linhas[j]).length && !extrairEmail(linhas[j]) && !ehLinhaLixo(linhas[j])) nomeCandidatos.push(linhas[j]);
+     if(!pareceNomeReal(nome)){
+       nome=limparNome(bloco,email,key);
      }
 
-     let nomeBase=nomeCandidatos.length?nomeCandidatos[0]:bloco;
-     let nome=limparNome(nomeBase,email,key);
-
-     registros.push({nome,telefone:fmtTel(key),email,key});
-     used.add(i+"-"+key);
+     registros.push({
+       nome: pareceNomeReal(nome)?nome:"Contato "+key.slice(-4),
+       telefone: fmtTel(key),
+       email,
+       key
+     });
+     usadoTel.add(key);
    });
  }
- return registros;
+
+ // 2) Se o PDF/OCR vier em COLUNAS separadas, faz pareamento por ordem:
+ // nomes[0] + telefones[0] + emails[0], nomes[1] + telefones[1] + emails[1]...
+ const col=coletarColunas(texto);
+ if(col.telefones.length){
+   col.telefones.forEach((key,idx)=>{
+     const nomeCol=col.nomes[idx] || "";
+     const emailCol=col.emails[idx] || "";
+     const existente=registros.find(r=>r.key===key);
+
+     if(existente){
+       if(pareceNomeReal(nomeCol) && /^Contato\s+\d+/i.test(existente.nome)){
+         existente.nome=nomeCol;
+       }
+       if(emailCol && !existente.email)existente.email=emailCol;
+     }else{
+       registros.push({
+         nome: pareceNomeReal(nomeCol)?nomeCol:"Contato "+key.slice(-4),
+         telefone: fmtTel(key),
+         email: emailCol,
+         key
+       });
+     }
+   });
+ }
+
+ // 3) Remove duplicados e ordena.
+ const porKey={};
+ registros.forEach(r=>{
+   if(!telefoneValidoBR(r.key))return;
+   if(!porKey[r.key]){
+     porKey[r.key]=r;
+   }else{
+     if(/^Contato\s+\d+/i.test(porKey[r.key].nome) && pareceNomeReal(r.nome))porKey[r.key].nome=r.nome;
+     if(!porKey[r.key].email && r.email)porKey[r.key].email=r.email;
+   }
+ });
+
+ return Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
 }
 
 function preVisualizarMembros(){
