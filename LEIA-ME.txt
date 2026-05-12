@@ -1,14 +1,28 @@
-REINO DA SORTE - V3.1 PROFISSIONAL
+REINO DA SORTE - V3.2 COMPLETA CORRIGIDA
 
-Correções:
-- Organização por ordem alfabética.
-- Melhor extração de nome + telefone em linhas separadas.
-- Nome e contato clicáveis para abrir WhatsApp.
-- Logo com fundo branco, sem fundo preto pesado.
-- Botões padronizados em azul/dourado/claro/vermelho apenas para apagar.
-- Layout e alinhamento ajustados.
+Esta é a versão completa, não é versão reduzida.
 
-Substitua no GitHub:
+Inclui:
+- layout completo da enquete
+- painel ADM completo
+- votos
+- cadastro de membros
+- leitura de imagem/PDF por OCR
+- organização por ordem alfabética
+- correção automática de telefone BR
+- limpeza inteligente de nomes
+- editar membro
+- excluir membro
+- nome e telefone clicáveis para WhatsApp
+- lista de faltantes com botão cobrar
+- exportação CSV
+- fundo oficial azul
+- logo oficial com fundo branco
+
+Arquivos para subir no GitHub:
 - index.html
-- fundo-oficial.jpg
 - logo-reino-da-sorte.jpeg
+- fundo-oficial.jpg
+
+Senha ADM padrão: 1234
+Código de acesso padrão: REINO2026
