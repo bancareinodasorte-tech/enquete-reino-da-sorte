@@ -1,20 +1,19 @@
-REINO DA SORTE — V3.7 REFINO FINAL DE CONTATOS
+REINO DA SORTE - V3.5 SEM MISTURAR NOMES
 
-Refino aplicado:
-- Corrige nomes que estavam como e-mail.
-- Corrige "Dispositivo Autorizado".
-- Corrige nomes genéricos usando telefone/e-mail.
-- Remove duplicados por telefone.
-- Se houver nome duplicado real, adiciona final do telefone para identificação.
-- Mantém todo o restante da V3.6.2.
+Correção principal:
+- O sistema não junta mais blocos grandes de texto como nome.
+- Busca apenas o nome mais próximo do telefone.
+- Limita nome a no máximo 4 palavras para evitar misturar vendedores.
+- Mantém pareamento por colunas somente quando as linhas de nomes são puras.
+- Mantém painel completo, OCR, votos, membros, faltantes, editar/excluir, WhatsApp e CSV.
 
-Depois de subir no GitHub:
-1. Abra Área ADM.
-2. Vá em Membros.
-3. Clique em "Corrigir nomes pela lista/e-mail".
-4. Revise apenas os casos específicos, se sobrar algum.
+IMPORTANTE:
+Depois de subir esta versão:
+1. Área ADM
+2. Cadastrar membros
+3. Limpar membros
+4. Importar o PDF/print novamente
+5. Pré-visualizar nomes
+6. Processar e salvar membros
 
-Arquivos:
-- index.html
-- logo-reino-da-sorte.jpeg
-- fundo-oficial.jpg
+Se o PDF continuar sem nome correto, use o botão Editar para corrigir só os nomes/telefones necessários.

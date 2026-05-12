@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enquete Oficial — Reino da Sorte V3.7</title>
+<title>Enquete Oficial — Reino da Sorte V3.5</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--azul);min-height:100vh;padding:12px;background:#03143d}
 body:before{content:"";position:fixed;inset:0;background:url('fundo-oficial.jpg') center/cover no-repeat;opacity:.42;z-index:-2}
-body:after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(3,20,61,.05),rgba(0,0,0,.88));z-index:-1}
+body:after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(3,20,61,.05),rgba(0,0,0,.86));z-index:-1}
 .app{max-width:980px;margin:auto}
 .hero{background:linear-gradient(180deg,rgba(6,27,78,.62),rgba(6,27,78,.92));border:2px solid rgba(246,199,74,.85);border-radius:28px;padding:22px 16px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden;color:white}
 .hero:before{content:"";position:absolute;inset:0;background:url('fundo-oficial.jpg') center/cover no-repeat;opacity:.25}
@@ -26,25 +26,23 @@ h1{margin:14px 0 7px;font-size:29px;line-height:1.08;color:white;text-shadow:0 2
 .card,.progress-box,.admin-area,.box{background:rgba(255,255,255,.98);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);border:1px solid rgba(246,199,74,.34);margin-top:16px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 h2{margin:0 0 12px;color:var(--azul);font-size:22px}
-h3{margin:14px 0 8px;color:var(--azul);font-size:18px}
 label{display:block;font-weight:900;margin:12px 0 7px;color:var(--azul)}
-input,textarea,select{width:100%;padding:14px;border:1.5px solid #cbd8f2;border-radius:16px;font-size:16px;outline:none;background:white;color:var(--azul)}
+input,textarea{width:100%;padding:14px;border:1.5px solid #cbd8f2;border-radius:16px;font-size:16px;outline:none;background:white;color:var(--azul)}
 textarea{min-height:110px;resize:vertical}
 .small{font-size:13px;color:#445371;line-height:1.4}.counter{text-align:right;font-size:12px;color:#5a6680;margin-top:4px}
 .progress-title{display:flex;justify-content:space-between;font-weight:900;margin-bottom:10px;gap:10px}
 .bar{height:18px;background:#dbe7ff;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--dourado),var(--verde));transition:.3s}
 .option-card,.bonus-option{cursor:pointer;transition:.18s;border:2px solid transparent}
 .option-card.selected,.bonus-option.selected{border-color:var(--verde);box-shadow:0 0 0 4px rgba(22,163,74,.15),var(--shadow)}
-.day{background:linear-gradient(135deg,#f8fbff,#eef3ff);border-left:5px solid var(--dourado);border-radius:16px;padding:12px;margin:10px 0;white-space:pre-line}
+.day{background:linear-gradient(135deg,#f8fbff,#eef3ff);border-left:5px solid var(--dourado);border-radius:16px;padding:12px;margin:10px 0}
 .day strong{display:block;margin-bottom:5px}.money{font-weight:900;color:#0b2e78}
-.bonus-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.bonus-option{padding:14px;border-radius:18px;background:#f8fbff;border-color:#dbe7ff;white-space:pre-line}
+.bonus-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.bonus-option{padding:14px;border-radius:18px;background:#f8fbff;border-color:#dbe7ff}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 button{border:none;padding:14px 16px;border-radius:16px;font-size:15px;font-weight:900;cursor:pointer;transition:.18s}
 .btn-primary{background:linear-gradient(135deg,var(--dourado),var(--dourado2));color:#082052;box-shadow:0 10px 22px rgba(246,199,74,.22)}
 .btn-dark{background:linear-gradient(135deg,var(--azul),var(--azul2));color:white}
 .btn-light{background:#eef3ff;color:var(--azul)}
 .btn-danger{background:#fff1f2;color:var(--vermelho)}
-.btn-green{background:#eafff1;color:#166534}
 .btn-primary.flex,.btn-dark.flex{flex:1}
 .msg{display:none;margin-top:14px;padding:14px;border-radius:16px;font-weight:900;text-align:center}.success{background:#eafff1;color:#166534;border:1px solid #86efac}.error{background:#fff1f2;color:#991b1b;border:1px solid #fecdd3}
 .admin-area{display:none;border:2px solid rgba(246,199,74,.65)}
@@ -61,9 +59,6 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 .filebox{border:2px dashed #8aa7ff;border-radius:18px;padding:18px;background:#f8fbff;text-align:center}.ocrstatus{font-weight:900;color:var(--azul);margin-top:10px}
 .edit-row{display:flex;gap:7px;flex-wrap:wrap}.edit-row button{padding:9px 10px;font-size:12px;border-radius:12px}
 .preview{background:#f8fbff;border:1px solid #dbe7ff;border-radius:16px;padding:12px;margin-top:12px;display:none}
-.checkline{display:flex;gap:10px;align-items:flex-start;background:#f8fbff;border:1px solid #dbe7ff;border-radius:14px;padding:10px;margin:8px 0}
-.checkline input{width:auto;margin-top:3px}
-.whats-list{max-height:520px;overflow:auto}
 @media(max-width:760px){
   .grid,.bonus-row,.stats{grid-template-columns:1fr}h1{font-size:24px}.logo{width:116px;height:116px}
   table{font-size:12px;min-width:900px}button{font-size:13px;padding:13px 11px}.hero{padding:18px 12px}
@@ -74,8 +69,8 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 <div class="app">
 <section class="hero">
 <img class="logo" src="logo-reino-da-sorte.jpeg" alt="Logo Reino da Sorte">
-<h1 id="tituloPublico">Enquete Oficial — Reino da Sorte</h1>
-<p class="sub" id="descricaoPublica">Votação interna para vendedores. Somente contatos cadastrados podem votar.</p>
+<h1>Enquete Oficial — Reino da Sorte</h1>
+<p class="sub">Votação interna para vendedores. Somente contatos cadastrados podem votar. As respostas são privadas e somente a administração terá acesso aos detalhes.</p>
 <span class="badge">Votação privada • Grupo de vendedores</span>
 </section>
 
@@ -103,11 +98,26 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 </div>
 </div>
 
-<div class="grid" id="opcoesVotacao"></div>
+<div class="grid">
+<div class="card option-card" data-vote="Opção 1 — Quarta e Sábado">
+<h2>Opção 1 — Quarta e Sábado</h2>
+<div class="day"><strong>Quarta-feira</strong>Principal <span class="money">R$ 1.500,00</span><br>+3 Extras de <span class="money">R$ 100,00</span></div>
+<div class="day"><strong>Sábado</strong>Principal <span class="money">R$ 2.000,00</span><br>+4 Extras de <span class="money">R$ 100,00</span></div>
+</div>
+<div class="card option-card" data-vote="Opção 2 — Terça, Quinta e Sábado">
+<h2>Opção 2 — Terça, Quinta e Sábado</h2>
+<div class="day"><strong>Terça-feira</strong>Principal <span class="money">R$ 1.000,00</span><br>+3 Extras de <span class="money">R$ 100,00</span></div>
+<div class="day"><strong>Quinta-feira</strong>Principal <span class="money">R$ 1.500,00</span><br>+3 Extras de <span class="money">R$ 100,00</span></div>
+<div class="day"><strong>Sábado</strong>Principal <span class="money">R$ 2.000,00</span><br>+3 Extras de <span class="money">R$ 200,00</span></div>
+</div>
+</div>
 
 <div class="card">
 <h2>Bônus | % | Meta</h2>
-<div class="bonus-row" id="bonusVotacao"></div>
+<div class="bonus-row">
+<div class="bonus-option" data-bonus="1ª — 10b | 25% | Meta 45b (% conta do +35)"><strong>1ª opção</strong><br>10b | 25% | Meta 45b<br><span class="small">(% conta do +35)</span></div>
+<div class="bonus-option" data-bonus="2ª — 15b | 25% | Meta 75b (% conta do +60)"><strong>2ª opção</strong><br>15b | 25% | Meta 75b<br><span class="small">(% conta do +60)</span></div>
+</div>
 </div>
 <div class="actions"><button class="btn-primary flex" type="submit">Enviar meu voto</button><button class="btn-dark" type="button" onclick="abrirAdmin()">Área ADM</button></div>
 <div class="msg success" id="successBox">✅ Voto enviado com sucesso.</div><div class="msg error" id="errorBox"></div>
@@ -115,38 +125,19 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 
 <section class="admin-area" id="adminArea">
 <div class="admin-top">
-<div><h2 style="margin:0">Painel ADM</h2><p class="small" style="margin:4px 0 0">Fluxo: configure a enquete, selecione participantes, envie pelo WhatsApp e acompanhe votos.</p></div>
-<div class="actions" style="margin:0"><button class="btn-light" onclick="exportarCSV()">Exportar votos CSV</button><button class="btn-light" onclick="exportarMembrosCSV()">Exportar membros CSV</button><button class="btn-danger" onclick="limparVotos()">Limpar votos da enquete</button></div>
+<div><h2 style="margin:0">Painel ADM</h2><p class="small" style="margin:4px 0 0">Resultados, membros autorizados, faltantes e exportação.</p></div>
+<div class="actions" style="margin:0"><button class="btn-light" onclick="exportarCSV()">Exportar votos CSV</button><button class="btn-light" onclick="exportarMembrosCSV()">Exportar membros CSV</button><button class="btn-danger" onclick="limparVotos()">Limpar votos</button></div>
 </div>
 <div class="stats"><div class="stat"><h2>Total membros</h2><span class="pill" id="adminMembros">0 cadastrados</span></div><div class="stat"><h2>Responderam</h2><span class="pill" id="adminTotal">0 respostas</span></div><div class="stat"><h2>Faltam</h2><span class="pill" id="adminFaltam">0 vendedores</span></div></div>
-
-<div class="tabs">
-<div class="tab active" onclick="abrirAba('votos',this)">Votos</div>
-<div class="tab" onclick="abrirAba('membros',this)">Membros</div>
-<div class="tab" onclick="abrirAba('enquete',this)">Enquete</div>
-<div class="tab" onclick="abrirAba('participantes',this)">Participantes</div>
-<div class="tab" onclick="abrirAba('envio',this)">Enviar WhatsApp</div>
-<div class="tab" onclick="abrirAba('faltantes',this)">Faltantes</div>
-</div>
+<div class="tabs"><div class="tab active" onclick="abrirAba('votos',this)">Votos</div><div class="tab" onclick="abrirAba('membros',this)">Cadastrar membros</div><div class="tab" onclick="abrirAba('faltantes',this)">Faltantes</div></div>
 
 <div id="painel-votos" class="panel active">
-<div class="table-wrap"><table><thead><tr><th>Data</th><th>Nome</th><th>Telefone</th><th>Enquete</th><th>Voto</th><th>Bônus</th><th>Sugestão</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Data</th><th>Nome cadastrado</th><th>Telefone</th><th>Voto</th><th>Bônus</th><th>Sugestão privada</th></tr></thead><tbody id="adminRows"></tbody></table></div>
 </div>
 
 <div id="painel-membros" class="panel">
 <div class="box">
 <h2>Cadastrar membros permitidos</h2>
-
-<div class="box" style="box-shadow:none;background:#f8fbff">
-<h3>Adicionar 1 membro manualmente</h3>
-<div class="grid">
-<div><label>Nome</label><input id="manualNome" placeholder="Nome do vendedor"></div>
-<div><label>Telefone</label><input id="manualTelefone" placeholder="DDD + número"></div>
-</div>
-<label>E-mail opcional</label><input id="manualEmail" placeholder="email opcional">
-<div class="actions"><button class="btn-primary" type="button" onclick="adicionarMembroManual()">Salvar membro</button></div>
-</div>
-
 <div class="filebox">
 <h2>Importar print / imagem / PDF</h2>
 <input id="arquivoImportacao" type="file" accept="image/*,.pdf">
@@ -156,160 +147,70 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 
 <label>Texto extraído ou colado manualmente</label>
 <textarea id="membrosTexto" placeholder="Formato aceito:
+Nome Telefone Email
 Nome
 Telefone
-E-mail
+Email
 Ou tabela copiada com colunas Nome / Telefone / E-mail"></textarea>
 
 <div class="actions">
 <button class="btn-light" type="button" onclick="preVisualizarMembros()">Pré-visualizar nomes</button>
 <button class="btn-primary" type="button" onclick="processarMembros()">Processar e salvar membros</button>
 <button class="btn-light" type="button" onclick="copiarBaseMembros()">Copiar lista atual</button>
-<button class="btn-danger" type="button" onclick="limparMembros()">Limpar membros</button><button class="btn-light" type="button" onclick="corrigirNomesAutomatico()">Corrigir nomes pela lista/e-mail</button>
+<button class="btn-danger" type="button" onclick="limparMembros()">Limpar membros</button>
 </div>
 <div class="preview" id="previewBox"></div>
 <div class="msg success" id="membrosMsg"></div>
-</div>
-<div class="table-wrap"><table><thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Participa</th><th>Status</th><th>Ações</th></tr></thead><tbody id="membrosRows"></tbody></table></div>
-</div>
-
-<div id="painel-enquete" class="panel">
-<div class="box">
-<h2>Gerenciar enquete atual</h2>
-<p class="small">Edite aqui a enquete atual. Os contatos permanecem salvos.</p>
-<label>Título da enquete</label><input id="pollTitulo">
-<label>Descrição</label><textarea id="pollDescricao"></textarea>
-<div class="grid">
-<div><label>Opção 1 — Título</label><input id="pollOp1Titulo"><label>Opção 1 — Detalhes</label><textarea id="pollOp1Texto"></textarea></div>
-<div><label>Opção 2 — Título</label><input id="pollOp2Titulo"><label>Opção 2 — Detalhes</label><textarea id="pollOp2Texto"></textarea></div>
-</div>
-<div class="grid">
-<div><label>Bônus 1</label><textarea id="pollBonus1"></textarea></div>
-<div><label>Bônus 2</label><textarea id="pollBonus2"></textarea></div>
-</div>
-<label>Código de acesso</label><input id="pollCodigo">
-<div class="actions">
-<button class="btn-primary" onclick="salvarEnquete()" type="button">Salvar enquete</button>
-<button class="btn-light" onclick="novaEnquete()" type="button">Nova enquete zerando votos</button>
-<button class="btn-light" onclick="duplicarEnquete()" type="button">Duplicar enquete</button>
-</div>
-<div class="msg success" id="pollMsg"></div>
-</div>
+<p class="small">V3.5: correção para não misturar nomes. O sistema busca somente o nome mais próximo do telefone e limita blocos grandes.</p>
 </div>
 
-<div id="painel-participantes" class="panel">
-<div class="box">
-<h2>Selecionar participantes desta enquete</h2>
-<p class="small">Marque quem pode votar nesta enquete. Isso não apaga contato da agenda.</p>
-<div class="actions">
-<button class="btn-light" type="button" onclick="selecionarTodos(true)">Selecionar todos</button>
-<button class="btn-light" type="button" onclick="selecionarTodos(false)">Limpar seleção</button>
-<button class="btn-primary" type="button" onclick="salvarParticipantes()">Salvar seleção</button>
-</div>
-<div id="listaParticipantes"></div>
-</div>
-</div>
-
-<div id="painel-envio" class="panel">
-<div class="box">
-<h2>Enviar enquete pelo WhatsApp</h2>
-<p class="small">O navegador não envia automático para todos. Ele abre o WhatsApp com mensagem pronta para cada contato ou compartilhamento para grupo.</p>
-<label>Link da enquete</label><input id="linkEnquete" placeholder="Cole aqui o link do GitHub Pages">
-<label>Mensagem pronta</label><textarea id="mensagemWhats"></textarea>
-<div class="actions">
-<button class="btn-primary" type="button" onclick="salvarMensagemEnvio()">Salvar mensagem/link</button>
-<button class="btn-dark" type="button" onclick="compartilharGrupo()">Compartilhar no WhatsApp/grupo</button>
-</div>
-<h3>Participantes selecionados</h3>
-<div class="whats-list" id="listaEnvio"></div>
+<div class="table-wrap">
+<table><thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Status</th><th>Ações</th></tr></thead><tbody id="membrosRows"></tbody></table>
 </div>
 </div>
 
 <div id="painel-faltantes" class="panel">
-<div class="box"><h2>Quem falta votar</h2><p class="small">Clique para cobrar no WhatsApp.</p><div id="faltantesLista"></div></div>
+<div class="box"><h2>Quem falta votar</h2><p class="small">Clique no nome/telefone ou no botão para chamar no WhatsApp.</p><div id="faltantesLista"></div></div>
 </div>
 </section>
 <div class="footer">REINO DA SORTE • Sistema interno de votação</div>
 </div>
 
 <script>
-const CONFIG_PADRAO={codigoAcesso:"REINO2026",senhaAdm:"1234"};
-const LS_VOTOS="reino_v36_votos";
-const LS_MEMBROS="reino_v36_membros";
-const LS_POLL="reino_v36_poll";
-const LS_ENVIO="reino_v36_envio";
+const CONFIG={codigoAcesso:"REINO2026",senhaAdm:"1234"};
 let votoSelecionado="",bonusSelecionado="";
-
-const enquetePadrao={
- id:"enquete_"+Date.now(),
- titulo:"Enquete Oficial — Reino da Sorte",
- descricao:"Votação interna para vendedores. Somente contatos cadastrados podem votar.",
- codigo:"REINO2026",
- opcoes:[
-  {id:"op1",titulo:"Opção 1 — Quarta e Sábado",texto:"Quarta-feira\nPrincipal R$ 1.500,00\n+3 Extras de R$ 100,00\n\nSábado\nPrincipal R$ 2.000,00\n+4 Extras de R$ 100,00"},
-  {id:"op2",titulo:"Opção 2 — Terça, Quinta e Sábado",texto:"Terça-feira\nPrincipal R$ 1.000,00\n+3 Extras de R$ 100,00\n\nQuinta-feira\nPrincipal R$ 1.500,00\n+3 Extras de R$ 100,00\n\nSábado\nPrincipal R$ 2.000,00\n+3 Extras de R$ 200,00"}
- ],
- bonus:[
-  {id:"b1",texto:"1ª opção\n10b | 25% | Meta 45b\n(% conta do +35)"},
-  {id:"b2",texto:"2ª opção\n15b | 25% | Meta 75b\n(% conta do +60)"}
- ]
-};
+const LS_VOTOS="respostas_enquete_reino_v33";
+const LS_MEMBROS="membros_enquete_reino_v33";
 const votos=()=>JSON.parse(localStorage.getItem(LS_VOTOS)||"[]");
 const membros=()=>JSON.parse(localStorage.getItem(LS_MEMBROS)||"[]");
-const poll=()=>JSON.parse(localStorage.getItem(LS_POLL)||JSON.stringify(enquetePadrao));
-const envio=()=>JSON.parse(localStorage.getItem(LS_ENVIO)||JSON.stringify({link:location.href.split("#")[0],mensagem:"🍀 ENQUETE OFICIAL — REINO DA SORTE\n\nSua opinião é importante para definirmos os próximos sorteios, valores, bônus e metas.\n\n✅ Resposta privada\n✅ Somente administração vê os resultados\n✅ Vote apenas uma vez com seu WhatsApp cadastrado\n\n👉 Acesse e vote:\n[LINK]\n\nREINO DA SORTE"}));
 const salvarVotos=l=>localStorage.setItem(LS_VOTOS,JSON.stringify(l));
 const salvarMembros=l=>localStorage.setItem(LS_MEMBROS,JSON.stringify(l));
-const salvarPoll=p=>localStorage.setItem(LS_POLL,JSON.stringify(p));
-const salvarEnvio=e=>localStorage.setItem(LS_ENVIO,JSON.stringify(e));
+
 if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}
 
-function init(){
- renderPublico();carregarFormEnquete();carregarEnvio();atualizarTudo();
- document.getElementById("sugestao").addEventListener("input",function(){document.getElementById("charCount").textContent=this.value.length;});
- document.getElementById("telefone").addEventListener("input",function(){const m=buscarMembro(this.value);document.getElementById("nomeDetectado").textContent=m?`✅ Identificado: ${m.nome} (${m.telefone})`:"";});
- document.getElementById("voteForm").addEventListener("submit",enviarVoto);
-}
+document.querySelectorAll(".option-card").forEach(card=>card.addEventListener("click",()=>{document.querySelectorAll(".option-card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");votoSelecionado=card.dataset.vote;}));
+document.querySelectorAll(".bonus-option").forEach(card=>card.addEventListener("click",()=>{document.querySelectorAll(".bonus-option").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");bonusSelecionado=card.dataset.bonus;}));
+document.getElementById("sugestao").addEventListener("input",function(){document.getElementById("charCount").textContent=this.value.length;});
+document.getElementById("telefone").addEventListener("input",function(){const m=buscarMembro(this.value);document.getElementById("nomeDetectado").textContent=m?`✅ Identificado: ${m.nome} (${m.telefone})`:"";});
 
-function renderPublico(){
- const p=poll();
- document.getElementById("tituloPublico").textContent=p.titulo;
- document.getElementById("descricaoPublica").textContent=p.descricao;
- const ops=document.getElementById("opcoesVotacao");ops.innerHTML="";
- p.opcoes.forEach(o=>{
-  const div=document.createElement("div");div.className="card option-card";div.dataset.vote=o.titulo;
-  div.innerHTML=`<h2>${h(o.titulo)}</h2><div class="day">${h(o.texto)}</div>`;
-  div.addEventListener("click",()=>{document.querySelectorAll(".option-card").forEach(c=>c.classList.remove("selected"));div.classList.add("selected");votoSelecionado=o.titulo;});
-  ops.appendChild(div);
- });
- const bon=document.getElementById("bonusVotacao");bon.innerHTML="";
- p.bonus.forEach(b=>{
-  const div=document.createElement("div");div.className="bonus-option";div.dataset.bonus=b.texto;
-  div.textContent=b.texto;
-  div.addEventListener("click",()=>{document.querySelectorAll(".bonus-option").forEach(c=>c.classList.remove("selected"));div.classList.add("selected");bonusSelecionado=b.texto;});
-  bon.appendChild(div);
- });
-}
-
-function enviarVoto(e){
+document.getElementById("voteForm").addEventListener("submit",function(e){
  e.preventDefault();
- const tel=document.getElementById("telefone").value.trim(),cod=document.getElementById("codigo").value.trim(),sug=document.getElementById("sugestao").value.trim(),p=poll();
+ const tel=document.getElementById("telefone").value.trim(),cod=document.getElementById("codigo").value.trim(),sug=document.getElementById("sugestao").value.trim();
  erro("");
- if(cod!==p.codigo)return erro("Código de acesso incorreto.");
+ if(cod!==CONFIG.codigoAcesso)return erro("Código de acesso incorreto.");
  const m=buscarMembro(tel);
  if(!m)return erro("Este telefone não está cadastrado como membro autorizado.");
- if(m.participa===false)return erro("Este contato não foi selecionado para participar desta enquete.");
  if(!votoSelecionado)return erro("Escolha uma opção de sorteio.");
  if(!bonusSelecionado)return erro("Escolha uma opção de bônus/meta.");
  const lista=votos();
- if(lista.some(r=>r.telefoneKey===m.key && r.pollId===p.id))return erro("Este contato já registrou voto nesta enquete.");
- lista.push({data:new Date().toLocaleString("pt-BR"),pollId:p.id,pollTitulo:p.titulo,nome:m.nome,telefone:m.telefone,email:m.email||"",telefoneKey:m.key,voto:votoSelecionado,bonus:bonusSelecionado,sugestao:sug});
+ if(lista.some(r=>r.telefoneKey===m.key))return erro("Este contato já registrou voto.");
+ lista.push({data:new Date().toLocaleString("pt-BR"),nome:m.nome,telefone:m.telefone,email:m.email||"",telefoneKey:m.key,voto:votoSelecionado,bonus:bonusSelecionado,sugestao:sug});
  salvarVotos(lista);
  document.getElementById("successBox").style.display="block";document.getElementById("errorBox").style.display="none";
- e.target.reset();document.getElementById("charCount").textContent="0";document.getElementById("nomeDetectado").textContent="";
+ this.reset();document.getElementById("charCount").textContent="0";document.getElementById("nomeDetectado").textContent="";
  document.querySelectorAll(".option-card,.bonus-option").forEach(c=>c.classList.remove("selected"));votoSelecionado="";bonusSelecionado="";
  atualizarTudo();
-}
+});
 
 function chaveTelefone(t){
  let n=String(t||"").replace(/\D/g,"");
@@ -319,360 +220,395 @@ function chaveTelefone(t){
  if(n.length===10)n=n.slice(0,2)+"9"+n.slice(2);
  return n;
 }
-function telefoneValidoBR(k){if(!k||k.length!==11)return false;const ddd=Number(k.slice(0,2));return ddd>=11&&ddd<=99&&k[2]==="9";}
+function telefoneValidoBR(k){
+ if(!k||k.length!==11)return false;
+ const ddd=Number(k.slice(0,2));
+ if(ddd<11||ddd>99)return false;
+ if(k[2]!=="9")return false;
+ return true;
+}
 function fmtTel(k){return k.length===11?`(${k.slice(0,2)}) ${k.slice(2,7)}-${k.slice(7)}`:k;}
 function buscarMembro(t){const k=chaveTelefone(t);if(!k)return null;return membros().find(m=>m.key===k||m.key.endsWith(k)||k.endsWith(m.key));}
 function erro(msg){const b=document.getElementById("errorBox");if(!msg){b.style.display="none";b.textContent="";return}b.textContent="⚠️ "+msg;b.style.display="block";document.getElementById("successBox").style.display="none";}
-function abrirAdmin(){const senha=prompt("Digite a senha do ADM:");if(senha!==CONFIG_PADRAO.senhaAdm){alert("Senha incorreta.");return}document.getElementById("adminArea").style.display="block";atualizarTudo();document.getElementById("adminArea").scrollIntoView({behavior:"smooth"});}
-function abrirAba(nome,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));document.getElementById("painel-"+nome).classList.add("active");atualizarTudo();}
-function atualizarTudo(){atualizarProgresso();atualizarAdmin();renderMembros();renderFaltantes();renderParticipantes();renderEnvio();}
-function membrosParticipantes(){return membros().filter(m=>m.participa!==false)}
-function votosDaEnquete(){const p=poll();return votos().filter(v=>v.pollId===p.id)}
-function atualizarProgresso(){const total=membrosParticipantes().length,resp=votosDaEnquete().length,pct=total?Math.min(100,Math.round(resp/total*100)):0;document.getElementById("progressText").textContent=`${resp} de ${total} responderam`;document.getElementById("progressBar").style.width=pct+"%";}
+function abrirAdmin(){const senha=prompt("Digite a senha do ADM:");if(senha!==CONFIG.senhaAdm){alert("Senha incorreta.");return}document.getElementById("adminArea").style.display="block";atualizarTudo();document.getElementById("adminArea").scrollIntoView({behavior:"smooth"});}
+function abrirAba(nome,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));document.getElementById("painel-"+nome).classList.add("active");}
+function atualizarTudo(){atualizarProgresso();atualizarAdmin();renderMembros();renderFaltantes();}
+function atualizarProgresso(){const total=membros().length,resp=votos().length,pct=total?Math.min(100,Math.round(resp/total*100)):0;document.getElementById("progressText").textContent=`${resp} de ${total} responderam`;document.getElementById("progressBar").style.width=pct+"%";}
 function atualizarAdmin(){
- const lista=votosDaEnquete(),mem=membrosParticipantes();
+ const lista=votos(),mem=membros();
  document.getElementById("adminTotal").textContent=`${lista.length} respostas`;
- document.getElementById("adminMembros").textContent=`${membros().length} cadastrados`;
+ document.getElementById("adminMembros").textContent=`${mem.length} cadastrados`;
  document.getElementById("adminFaltam").textContent=`${Math.max(mem.length-lista.length,0)} vendedores`;
  const tb=document.getElementById("adminRows");tb.innerHTML="";
- lista.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${h(r.data)}</td><td><a class="linkzap" href="${waLink(r.telefoneKey,"")}" target="_blank">${h(r.nome)}</a></td><td><a class="linkzap" href="${waLink(r.telefoneKey,"")}" target="_blank">${h(r.telefone)}</a></td><td>${h(r.pollTitulo)}</td><td>${h(r.voto)}</td><td>${h(r.bonus)}</td><td>${h(r.sugestao||"-")}</td>`;tb.appendChild(tr);});
+ lista.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${h(r.data)}</td><td><a class="linkzap" href="${waLink(r.telefoneKey,"")}" target="_blank">${h(r.nome)}</a></td><td><a class="linkzap" href="${waLink(r.telefoneKey,"")}" target="_blank">${h(r.telefone)}</a></td><td>${h(r.voto)}</td><td>${h(r.bonus)}</td><td>${h(r.sugestao||"-")}</td>`;tb.appendChild(tr);});
 }
 
-function extrairEmail(texto){const m=String(texto||"").match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);return m?m[0]:"";}
-function acharTelefones(texto){const str=String(texto||"");const candidatos=str.match(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g)||[];const saida=[];candidatos.forEach(c=>{const k=chaveTelefone(c);if(telefoneValidoBR(k)&&!saida.includes(k))saida.push(k)});return saida;}
-function limparLinhaNomeCandidato(linha){
- const email=extrairEmail(linha);let s=String(linha||"");
- s=s.replace(email||""," ").replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig," ").replace(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g," ");
- s=s.replace(/\b(nome|telefone|e-?mail|email|status|ações|acao|votos?|membros?|users?|member|administrador|administrator|online|offline|disponivel|disponível|visualizar|ajuda|grupo|whatsapp|contato|phone|contact|vendedor|dispositivo|autorizado|authorized|device)\b/gi," ");
- s=s.replace(/[@#*•✓✅❌]/g," ").replace(/[-_:|,;()[\]{}<>]/g," ").replace(/\s+/g," ").trim();
- if(!s||s.length<2||!/[A-Za-zÀ-ÿ]/.test(s))return "";
- const palavras=s.split(" ").filter(p=>/[A-Za-zÀ-ÿ]/.test(p));
+function extrairEmail(texto){
+ const m=String(texto||"").match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+ return m?m[0]:"";
+}
+function acharTelefones(texto){
+ const str=String(texto||"");
+ const candidatos=str.match(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g)||[];
+ const saida=[];
+ candidatos.forEach(c=>{
+   const k=chaveTelefone(c);
+   if(telefoneValidoBR(k)&&!saida.includes(k))saida.push(k);
+ });
+ return saida;
+}
+function ehLinhaLixo(l){
+ const s=String(l||"").trim();
+ if(!s)return true;
+ if(/^(nome|telefone|e-?mail|email|status|ações|acao|votos?|membros?|users?|member|administrador|administrator)$/i.test(s))return true;
+ if(/^(online|offline|disponivel|disponível|visualizar|ajuda|grupo|whatsapp|contato|phone|contact)$/i.test(s))return true;
+ if(/^[\d\s()+\-\.]+$/.test(s))return true;
+ if(/^[^\wÀ-ÿ]+$/.test(s))return true;
+ return false;
+}
+function limparNome(txt,email,key){
+ let n=String(txt||"");
+ n=n.replace(email||""," ");
+ n=n.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig," ");
+ n=n.replace(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g," ");
+ n=n.replace(/\+?55/g," ");
+ n=n.replace(/\b(membro|members?|usu[aá]rios?|users?|administrador|administrator|whatsapp|telefone|phone|contact|contato|email|e-mail|online|offline|dispon[ií]vel|visualizar|ajuda|vendedor|grupo|nome|status|a[cç][oõ]es?)\b/gi," ");
+ n=n.replace(/[@#*•✓✅❌]/g," ");
+ n=n.replace(/[-_:|,;()[\]{}<>]/g," ");
+ n=n.replace(/\s+/g," ").trim();
+ if(!n||n.length<2)return "Contato "+key.slice(-4);
+ const palavras=n.split(" ").filter(p=>/[A-Za-zÀ-ÿ]/.test(p));
+ if(!palavras.length)return "Contato "+key.slice(-4);
  return palavras.map(p=>p.charAt(0).toUpperCase()+p.slice(1).toLowerCase()).join(" ");
 }
-function pareceNomeReal(nome){const n=String(nome||"").trim();if(!n||/^Contato\s+\d+/i.test(n)||/^Membro\s+\d+/i.test(n)||!/[A-Za-zÀ-ÿ]/.test(n)||n.length<3)return false;return !/\b(nome|telefone|email|status|membro|contato|whatsapp|administrador|administrator|users|member|online|offline)\b/i.test(n);}
-function limitarNome(nome){const partes=String(nome||"").trim().split(/\s+/).filter(Boolean);return partes.length>4?partes.slice(0,4).join(" "):partes.join(" ");}
-function separarPorLinhasTexto(texto){return String(texto||"").split(/\n+/).map(l=>l.trim()).filter(Boolean);}
+
+function limparLinhaNomeCandidato(linha){
+ const email=extrairEmail(linha);
+ let s=String(linha||"");
+ s=s.replace(email||""," ");
+ s=s.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig," ");
+ s=s.replace(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/g," ");
+ s=s.replace(/\b(nome|telefone|e-?mail|email|status|ações|acao|votos?|membros?|users?|member|administrador|administrator|online|offline|disponivel|disponível|visualizar|ajuda|grupo|whatsapp|contato|phone|contact|vendedor)\b/gi," ");
+ s=s.replace(/[@#*•✓✅❌]/g," ");
+ s=s.replace(/[-_:|,;()[\]{}<>]/g," ");
+ s=s.replace(/\s+/g," ").trim();
+ if(!s || s.length<2)return "";
+ if(!/[A-Za-zÀ-ÿ]/.test(s))return "";
+ const palavras=s.split(" ").filter(p=>/[A-Za-zÀ-ÿ]/.test(p));
+ if(!palavras.length)return "";
+ return palavras.map(p=>p.charAt(0).toUpperCase()+p.slice(1).toLowerCase()).join(" ");
+}
+
+function pareceNomeReal(nome){
+ const n=String(nome||"").trim();
+ if(!n)return false;
+ if(/^Contato\s+\d+/i.test(n))return false;
+ if(/^Membro\s+\d+/i.test(n))return false;
+ if(!/[A-Za-zÀ-ÿ]/.test(n))return false;
+ if(n.length<3)return false;
+ const lixo=/\b(nome|telefone|email|status|membro|contato|whatsapp|administrador|administrator|users|member|online|offline)\b/i;
+ if(lixo.test(n))return false;
+ return true;
+}
+
+function limitarNome(nome){
+ let n=String(nome||"").trim();
+ if(!n)return "";
+ const partes=n.split(/\s+/).filter(Boolean);
+
+ // Evita misturar vários vendedores numa linha enorme.
+ // Mantém no máximo 4 palavras, que já cobre nomes comuns.
+ if(partes.length>4){
+   n=partes.slice(0,4).join(" ");
+ }
+
+ return n;
+}
+
+function separarPorLinhasTexto(texto){
+ return String(texto||"")
+  .split(/\n+/)
+  .map(l=>l.trim())
+  .filter(Boolean);
+}
+
+function coletarColunasSeguras(texto){
+ const linhas=separarPorLinhasTexto(texto);
+ const nomes=[], telefones=[], emails=[];
+ const seenN=new Set(), seenT=new Set(), seenE=new Set();
+
+ linhas.forEach(l=>{
+   const ems=l.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig)||[];
+   ems.forEach(e=>{
+     const low=e.toLowerCase();
+     if(!seenE.has(low)){emails.push(e);seenE.add(low);}
+   });
+
+   const tels=acharTelefones(l);
+   tels.forEach(t=>{
+     if(!seenT.has(t)){telefones.push(t);seenT.add(t);}
+   });
+
+   // Só considera nome em coluna quando a linha NÃO tem telefone nem e-mail.
+   // Isso evita pegar blocos misturados.
+   if(!tels.length && !ems.length){
+     let nome=limparLinhaNomeCandidato(l);
+     nome=limitarNome(nome);
+     if(pareceNomeReal(nome) && !seenN.has(nome.toLowerCase())){
+       nomes.push(nome);
+       seenN.add(nome.toLowerCase());
+     }
+   }
+ });
+
+ return {nomes,telefones,emails};
+}
+
 function nomeAntesDoTelefoneNaMesmaLinha(linha,key){
- const s=String(linha||"");const nums=s.match(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/);
- if(nums&&nums.index>0)return limitarNome(limparLinhaNomeCandidato(s.slice(0,nums.index)));
+ const s=String(linha||"");
+ const padroes=[
+   key,
+   "55"+key,
+   key.replace(/^(\d{2})(\d{5})(\d{4})$/,"$1 $2 $3"),
+   key.replace(/^(\d{2})(\d{5})(\d{4})$/,"($1) $2-$3"),
+   key.replace(/^(\d{2})(\d{5})(\d{4})$/,"$1 $2-$3")
+ ];
+
+ let pos=-1;
+ for(const p of padroes){
+   const achou=s.indexOf(p);
+   if(achou>=0){pos=achou;break;}
+ }
+
+ if(pos<0){
+   const nums=s.match(/(?:\+?55\s*)?(?:0?\(?\d{2}\)?\s*)?(?:9\s*)?\d{4}[-\s.]?\d{4}|\d{10,13}/);
+   if(nums)pos=nums.index;
+ }
+
+ if(pos>0){
+   return limitarNome(limparLinhaNomeCandidato(s.slice(0,pos)));
+ }
+
  return "";
 }
-function emailProximo(linhas,i){for(let j=i;j<=Math.min(linhas.length-1,i+3);j++){const e=extrairEmail(linhas[j]);if(e)return e}for(let j=i-1;j>=Math.max(0,i-2);j--){const e=extrairEmail(linhas[j]);if(e)return e}return "";}
+
+function emailProximo(linhas,i){
+ for(let j=i;j<=Math.min(linhas.length-1,i+3);j++){
+   const e=extrairEmail(linhas[j]);
+   if(e)return e;
+ }
+ for(let j=i-1;j>=Math.max(0,i-2);j--){
+   const e=extrairEmail(linhas[j]);
+   if(e)return e;
+ }
+ return "";
+}
+
 function nomeProximoSemMisturar(linhas,i,key){
- let nome=nomeAntesDoTelefoneNaMesmaLinha(linhas[i],key);if(pareceNomeReal(nome))return nome;
- for(let j=i-1;j>=Math.max(0,i-3);j--){if(acharTelefones(linhas[j]).length||extrairEmail(linhas[j]))continue;nome=limitarNome(limparLinhaNomeCandidato(linhas[j]));if(pareceNomeReal(nome))return nome}
- for(let j=i+1;j<=Math.min(linhas.length-1,i+3);j++){if(acharTelefones(linhas[j]).length||extrairEmail(linhas[j]))continue;nome=limitarNome(limparLinhaNomeCandidato(linhas[j]));if(pareceNomeReal(nome))return nome}
+ // 1) Nome antes do telefone na mesma linha
+ let nome=nomeAntesDoTelefoneNaMesmaLinha(linhas[i],key);
+ if(pareceNomeReal(nome))return nome;
+
+ // 2) Linha imediatamente anterior, se for texto puro
+ for(let j=i-1;j>=Math.max(0,i-3);j--){
+   if(acharTelefones(linhas[j]).length || extrairEmail(linhas[j]))continue;
+   nome=limitarNome(limparLinhaNomeCandidato(linhas[j]));
+   if(pareceNomeReal(nome))return nome;
+ }
+
+ // 3) Linha imediatamente seguinte, se for texto puro
+ for(let j=i+1;j<=Math.min(linhas.length-1,i+3);j++){
+   if(acharTelefones(linhas[j]).length || extrairEmail(linhas[j]))continue;
+   nome=limitarNome(limparLinhaNomeCandidato(linhas[j]));
+   if(pareceNomeReal(nome))return nome;
+ }
+
  return "";
 }
+
 function montarRegistros(texto){
- const linhas=separarPorLinhasTexto(texto),registros=[],usadoTel=new Set();
- for(let i=0;i<linhas.length;i++){const tels=acharTelefones(linhas[i]);if(!tels.length)continue;tels.forEach(key=>{if(usadoTel.has(key))return;const email=emailProximo(linhas,i);let nome=nomeProximoSemMisturar(linhas,i,key);registros.push({nome:pareceNomeReal(nome)?nome:"Contato "+key.slice(-4),telefone:fmtTel(key),email,key,participa:true});usadoTel.add(key);});}
- const porKey={};registros.forEach(r=>{if(!telefoneValidoBR(r.key))return;if(!porKey[r.key])porKey[r.key]=r;else{if(/^Contato\s+\d+/i.test(porKey[r.key].nome)&&pareceNomeReal(r.nome))porKey[r.key].nome=r.nome;if(!porKey[r.key].email&&r.email)porKey[r.key].email=r.email;}});
+ const linhas=separarPorLinhasTexto(texto);
+ const registros=[];
+ const usadoTel=new Set();
+
+ // Modo A: telefone por telefone, nome mais próximo sem juntar blocos grandes.
+ for(let i=0;i<linhas.length;i++){
+   const tels=acharTelefones(linhas[i]);
+   if(!tels.length)continue;
+
+   tels.forEach(key=>{
+     if(usadoTel.has(key))return;
+
+     const email=emailProximo(linhas,i);
+     let nome=nomeProximoSemMisturar(linhas,i,key);
+
+     registros.push({
+       nome: pareceNomeReal(nome)?nome:"Contato "+key.slice(-4),
+       telefone: fmtTel(key),
+       email,
+       key
+     });
+
+     usadoTel.add(key);
+   });
+ }
+
+ // Modo B: PDF em colunas separadas.
+ // Só usa pareamento por ordem quando encontrou nomes puros em quantidade próxima aos telefones.
+ const col=coletarColunasSeguras(texto);
+ if(col.telefones.length && col.nomes.length){
+   col.telefones.forEach((key,idx)=>{
+     const nomeCol=col.nomes[idx] || "";
+     const emailCol=col.emails[idx] || "";
+     const existente=registros.find(r=>r.key===key);
+
+     if(existente){
+       // Só substitui "Contato 0000", nunca substitui um nome real já achado.
+       if(/^Contato\s+\d+/i.test(existente.nome) && pareceNomeReal(nomeCol)){
+         existente.nome=nomeCol;
+       }
+       if(emailCol && !existente.email)existente.email=emailCol;
+     }else{
+       registros.push({
+         nome: pareceNomeReal(nomeCol)?nomeCol:"Contato "+key.slice(-4),
+         telefone: fmtTel(key),
+         email: emailCol,
+         key
+       });
+     }
+   });
+ }
+
+ const porKey={};
+ registros.forEach(r=>{
+   if(!telefoneValidoBR(r.key))return;
+   if(!porKey[r.key]){
+     porKey[r.key]=r;
+   }else{
+     if(/^Contato\s+\d+/i.test(porKey[r.key].nome) && pareceNomeReal(r.nome))porKey[r.key].nome=r.nome;
+     if(!porKey[r.key].email && r.email)porKey[r.key].email=r.email;
+   }
+ });
+
  return Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
 }
 
-function nomeRuim(nome){
- const n=String(nome||"").trim();
- if(!n)return true;
- if(/^Contato\s+\d+/i.test(n))return true;
- if(/^Membro\s+\d+/i.test(n))return true;
- if(/dispositivo\s+autorizado/i.test(n))return true;
- if(/authorized\s+device/i.test(n))return true;
- if(/@|gmail|icloud|hotmail|outlook|\.com/i.test(n))return true;
- if(n.length>34)return true;
- return false;
-}
-
-function nomePorEmail(email){
- let e=String(email||"").toLowerCase().trim();
- if(!e)return "";
- const mapa={
-  "anaraissaleite571":"Ana Raissa",
-  "caelinecoelhodeoliveira":"Caeline Coelho",
-  "garciadossantosanakyara":"Kyara",
-  "tacilaryandraryandra11":"Tacilary Andra",
-  "tamilescristina80":"Tamiles Cristina",
-  "alineleite1210":"Aline dos Maroto",
-  "alicenabor991":"Alice Nabor",
-  "cleyton.reinodasorte":"Cleyton Silva",
-  "danr132540":"Dam",
-  "elainemariano4678":"Elaine Mariano",
-  "bancareinodasorte":"Escritório Reino da Sorte",
-  "giovannajulia":"Giovanna",
-  "mariaizidoro23":"Jamilles Izidório",
-  "juniorsouzaj697":"Junior Vendas",
-  "davimarcia2650":"Márcia Silva",
-  "marialuanagaldino40":"Maria Luana",
-  "matheuscantor8850":"O Graça Vendas",
-  "samarasouza202626":"Samara",
-  "fidelestainafideles":"Taína Fideles",
-  "yohanialves01":"Yohani Alves"
- };
- let prefix=e.split("@")[0].replace(/[^a-z0-9._-]/g,"").replace(/[._-]+/g," ").trim();
- for(const k in mapa){
-   if(prefix.includes(k))return mapa[k];
- }
- prefix=prefix.replace(/\d+/g," ").replace(/\s+/g," ").trim();
- if(!prefix || prefix.length<3)return "";
- return prefix.split(" ").filter(Boolean).map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
-}
-
-function nomePorTelefone(key){
- const mapa={
-  "88988940412":"Ana Raissa",
-  "85988725043":"Kyara",
-  "88981612830":"Caeline Coelho",
-  "88988656676":"Tacilary Andra",
-  "88981243042":"Tamiles Cristina"
- };
- return mapa[key]||"";
-}
-
-function corrigirNomeRegistro(reg){
- let novo="";
- if(nomeRuim(reg.nome)){
-   novo=nomePorTelefone(reg.key) || nomePorEmail(reg.email);
- }
- if(novo){
-   reg.nome=novo;
- }
- return reg;
-}
-
-function corrigirNomesAutomatico(){
- const lista=membros().map(m=>corrigirNomeRegistro({...m}));
- salvarMembros(lista.sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));
- atualizarTudo();
- alert("Correção automática aplicada. Revise a lista e use Editar nos casos restantes.");
-}
-
 function preVisualizarMembros(){
- const regs=montarRegistros(document.getElementById("membrosTexto").value),box=document.getElementById("previewBox");box.style.display="block";
+ const regs=montarRegistros(document.getElementById("membrosTexto").value);
+ const box=document.getElementById("previewBox");
+ box.style.display="block";
  if(!regs.length){box.innerHTML="<strong>Nenhum contato válido encontrado.</strong>";return}
- box.innerHTML="<strong>Prévia dos contatos encontrados:</strong><br><br>"+regs.slice(0,30).map(r=>`${h(r.nome)} — ${h(r.telefone)} ${r.email?"— "+h(r.email):""}`).join("<br>")+(regs.length>30?`<br><br>... e mais ${regs.length-30}`:"");
+ box.innerHTML="<strong>Prévia dos contatos encontrados:</strong><br><br>"+regs.slice(0,30).map(r=>`${h(r.nome)} — ${h(r.telefone)} ${r.email? "— "+h(r.email):""}`).join("<br>")+(regs.length>30?`<br><br>... e mais ${regs.length-30}`:"");
 }
+
 function processarMembros(){
- const regs=montarRegistros(document.getElementById("membrosTexto").value);const porKey={};membros().forEach(m=>porKey[m.key]=m);
+ const regs=montarRegistros(document.getElementById("membrosTexto").value);
+ const porKey={}; membros().forEach(m=>porKey[m.key]=m);
  let adicionados=0,atualizados=0,ignorados=0;
- regs.forEach(r=>{if(!telefoneValidoBR(r.key)){ignorados++;return}if(porKey[r.key]){porKey[r.key]={...porKey[r.key],nome:r.nome||porKey[r.key].nome,email:r.email||porKey[r.key].email||"",telefone:r.telefone,key:r.key,participa:porKey[r.key].participa!==false};atualizados++;}else{porKey[r.key]=r;adicionados++;}});
- salvarMembros(corrigirDuplicadosV37(Object.values(porKey)));
+ regs.forEach(r=>{
+   if(!telefoneValidoBR(r.key)){ignorados++;return}
+   if(porKey[r.key]){
+     porKey[r.key]={...porKey[r.key],nome:r.nome||porKey[r.key].nome,email:r.email||porKey[r.key].email||"",telefone:r.telefone,key:r.key};
+     atualizados++;
+   }else{
+     porKey[r.key]=r; adicionados++;
+   }
+ });
+ salvarMembros(Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));
  const msg=document.getElementById("membrosMsg");msg.style.display="block";msg.textContent=`✅ Membros processados. Adicionados: ${adicionados}. Atualizados: ${atualizados}. Ignorados: ${ignorados}.`;
  atualizarTudo();preVisualizarMembros();
 }
-function adicionarMembroManual(){
- const nome=document.getElementById("manualNome").value.trim(),tel=document.getElementById("manualTelefone").value.trim(),email=document.getElementById("manualEmail").value.trim();
- const key=chaveTelefone(tel);if(!pareceNomeReal(nome))return alert("Digite o nome do vendedor.");if(!telefoneValidoBR(key))return alert("Telefone inválido. Use DDD + número com 9.");
- const lista=membros().filter(m=>m.key!==key);lista.push({nome,telefone:fmtTel(key),email,key,participa:true});salvarMembros(lista.sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));
- document.getElementById("manualNome").value="";document.getElementById("manualTelefone").value="";document.getElementById("manualEmail").value="";atualizarTudo();alert("Membro salvo.");
-}
+
 function renderMembros(){
- const tb=document.getElementById("membrosRows");tb.innerHTML="";const vks=new Set(votosDaEnquete().map(v=>v.telefoneKey));
- membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).forEach(m=>{const tr=document.createElement("tr");tr.innerHTML=`<td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.nome)}</a></td><td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.telefone)}</a></td><td>${h(m.email||"-")}</td><td>${m.participa===false?"❌ Não":"✅ Sim"}</td><td>${vks.has(m.key)?"✅ Votou":"⏳ Falta votar"}</td><td><div class="edit-row"><button class="btn-light" type="button" onclick="editarMembro('${m.key}')">Editar</button><button class="btn-light" type="button" onclick="toggleParticipa('${m.key}')">${m.participa===false?"Ativar":"Desativar"}</button><button class="btn-danger" type="button" onclick="excluirMembro('${m.key}')">Excluir</button></div></td>`;tb.appendChild(tr);});
+ const tb=document.getElementById("membrosRows");tb.innerHTML="";
+ const vks=new Set(votos().map(v=>v.telefoneKey));
+ membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).forEach(m=>{
+   const tr=document.createElement("tr");
+   tr.innerHTML=`<td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.nome)}</a></td><td><a class="linkzap" href="${waLink(m.key,"")}" target="_blank">${h(m.telefone)}</a></td><td>${h(m.email||"-")}</td><td>${vks.has(m.key)?"✅ Votou":"⏳ Falta votar"}</td><td><div class="edit-row"><button class="btn-light" type="button" onclick="editarMembro('${m.key}')">Editar</button><button class="btn-danger" type="button" onclick="excluirMembro('${m.key}')">Excluir</button></div></td>`;
+   tb.appendChild(tr);
+ });
 }
-function editarMembro(key){const lista=membros(),idx=lista.findIndex(m=>m.key===key);if(idx<0)return;const atual=lista[idx];const novoNome=prompt("Editar nome:",atual.nome);if(novoNome===null)return;const novoTelefone=prompt("Editar telefone:",atual.telefone);if(novoTelefone===null)return;const novoEmail=prompt("Editar e-mail opcional:",atual.email||"");if(novoEmail===null)return;const novaKey=chaveTelefone(novoTelefone);if(!telefoneValidoBR(novaKey)){alert("Telefone inválido.");return}lista[idx]={nome:novoNome.trim()||atual.nome,telefone:fmtTel(novaKey),email:novoEmail.trim(),key:novaKey,participa:atual.participa!==false};const porKey={};lista.forEach(m=>porKey[m.key]=m);salvarMembros(corrigirDuplicadosV37(Object.values(porKey)));atualizarTudo();}
+function editarMembro(key){
+ const lista=membros();const idx=lista.findIndex(m=>m.key===key);if(idx<0)return;const atual=lista[idx];
+ const novoNome=prompt("Editar nome:",atual.nome);if(novoNome===null)return;
+ const novoTelefone=prompt("Editar telefone:",atual.telefone);if(novoTelefone===null)return;
+ const novoEmail=prompt("Editar e-mail opcional:",atual.email||"");if(novoEmail===null)return;
+ const novaKey=chaveTelefone(novoTelefone);
+ if(!telefoneValidoBR(novaKey)){alert("Telefone inválido. Verifique DDD + número com 9.");return}
+ lista[idx]={nome:novoNome.trim()||atual.nome,telefone:fmtTel(novaKey),email:novoEmail.trim(),key:novaKey};
+ const porKey={};lista.forEach(m=>porKey[m.key]=m);
+ salvarMembros(Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")));atualizarTudo();
+}
 function excluirMembro(key){if(!confirm("Excluir este membro da lista?"))return;salvarMembros(membros().filter(m=>m.key!==key));atualizarTudo();}
-function toggleParticipa(key){const lista=membros();const m=lista.find(x=>x.key===key);if(m){m.participa=!(m.participa!==false);salvarMembros(lista);atualizarTudo();}}
-function renderParticipantes(){
- const box=document.getElementById("listaParticipantes");if(!box)return;box.innerHTML="";
- membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).forEach(m=>{const div=document.createElement("div");div.className="checkline";div.innerHTML=`<input type="checkbox" data-part="${m.key}" ${m.participa!==false?"checked":""}><div><strong>${h(m.nome)}</strong><br><span class="small">${h(m.telefone)} ${m.email?"• "+h(m.email):""}</span></div>`;box.appendChild(div);});
+function renderFaltantes(){
+ const box=document.getElementById("faltantesLista");box.innerHTML="";
+ const vks=new Set(votos().map(v=>v.telefoneKey));
+ const falt=membros().filter(m=>!vks.has(m.key)).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
+ if(!falt.length){box.innerHTML='<div class="list-card"><strong>✅ Todos responderam ou nenhum membro cadastrado.</strong></div>';return}
+ falt.forEach(m=>{
+   const msg=`Olá, ${m.nome}! Falta somente você responder a enquete oficial da REINO DA SORTE. Sua opinião é importante. 🍀`;
+   const div=document.createElement("div");div.className="list-card";
+   div.innerHTML=`<div><a class="linkzap" href="${waLink(m.key,msg)}" target="_blank">${h(m.nome)}</a><br><a class="linkzap small" href="${waLink(m.key,msg)}" target="_blank">${h(m.telefone)}</a></div><button class="btn-dark" type="button" onclick="window.open('${waLink(m.key,msg)}','_blank')">Cobrar</button>`;
+   box.appendChild(div);
+ });
 }
-function selecionarTodos(v){document.querySelectorAll("[data-part]").forEach(c=>c.checked=v);}
-function salvarParticipantes(){const mapa={};document.querySelectorAll("[data-part]").forEach(c=>mapa[c.dataset.part]=c.checked);const lista=membros().map(m=>({...m,participa:mapa[m.key]!==false}));salvarMembros(lista);atualizarTudo();alert("Participantes salvos.");}
-
-function carregarFormEnquete(){const p=poll();document.getElementById("pollTitulo").value=p.titulo;document.getElementById("pollDescricao").value=p.descricao;document.getElementById("pollOp1Titulo").value=p.opcoes[0].titulo;document.getElementById("pollOp1Texto").value=p.opcoes[0].texto;document.getElementById("pollOp2Titulo").value=p.opcoes[1].titulo;document.getElementById("pollOp2Texto").value=p.opcoes[1].texto;document.getElementById("pollBonus1").value=p.bonus[0].texto;document.getElementById("pollBonus2").value=p.bonus[1].texto;document.getElementById("pollCodigo").value=p.codigo;}
-function salvarEnquete(){const p=poll();p.titulo=document.getElementById("pollTitulo").value.trim()||p.titulo;p.descricao=document.getElementById("pollDescricao").value.trim()||p.descricao;p.opcoes[0].titulo=document.getElementById("pollOp1Titulo").value.trim()||p.opcoes[0].titulo;p.opcoes[0].texto=document.getElementById("pollOp1Texto").value.trim()||p.opcoes[0].texto;p.opcoes[1].titulo=document.getElementById("pollOp2Titulo").value.trim()||p.opcoes[1].titulo;p.opcoes[1].texto=document.getElementById("pollOp2Texto").value.trim()||p.opcoes[1].texto;p.bonus[0].texto=document.getElementById("pollBonus1").value.trim()||p.bonus[0].texto;p.bonus[1].texto=document.getElementById("pollBonus2").value.trim()||p.bonus[1].texto;p.codigo=document.getElementById("pollCodigo").value.trim()||p.codigo;salvarPoll(p);renderPublico();const msg=document.getElementById("pollMsg");msg.style.display="block";msg.textContent="✅ Enquete salva.";atualizarTudo();}
-function novaEnquete(){if(!confirm("Criar nova enquete e zerar votos da enquete atual? Os membros serão mantidos."))return;const p=poll();p.id="enquete_"+Date.now();salvarPoll(p);salvarVotos(votos().filter(v=>v.pollId!==p.id));carregarFormEnquete();atualizarTudo();alert("Nova enquete criada. Edite os dados e salve.");}
-function duplicarEnquete(){const p=poll();p.id="enquete_"+Date.now();p.titulo=p.titulo+" (nova)";salvarPoll(p);carregarFormEnquete();renderPublico();atualizarTudo();alert("Enquete duplicada. Edite se necessário.");}
-
-function carregarEnvio(){const e=envio();document.getElementById("linkEnquete").value=e.link;document.getElementById("mensagemWhats").value=e.mensagem;}
-function salvarMensagemEnvio(){salvarEnvio({link:document.getElementById("linkEnquete").value.trim()||location.href.split("#")[0],mensagem:document.getElementById("mensagemWhats").value});renderEnvio();alert("Mensagem/link salvos.");}
-function mensagemFinal(nome){const e=envio(),link=e.link||location.href.split("#")[0];return (e.mensagem||"").replace("[LINK]",link).replace("[NOME]",nome||"");}
-function renderEnvio(){const box=document.getElementById("listaEnvio");if(!box)return;box.innerHTML="";membrosParticipantes().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).forEach(m=>{const div=document.createElement("div");div.className="list-card";const msg=mensagemFinal(m.nome);div.innerHTML=`<div><strong>${h(m.nome)}</strong><br><span class="small">${h(m.telefone)}</span></div><button class="btn-dark" type="button" onclick="window.open('${waLink(m.key,msg)}','_blank')">Enviar</button>`;box.appendChild(div);});}
-function compartilharGrupo(){salvarMensagemEnvio();const msg=mensagemFinal("");window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");}
-
-function renderFaltantes(){const box=document.getElementById("faltantesLista");box.innerHTML="";const vks=new Set(votosDaEnquete().map(v=>v.telefoneKey));const falt=membrosParticipantes().filter(m=>!vks.has(m.key)).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));if(!falt.length){box.innerHTML='<div class="list-card"><strong>✅ Todos responderam ou nenhum participante selecionado.</strong></div>';return}falt.forEach(m=>{const msg=`Olá, ${m.nome}! Falta somente você responder a enquete oficial da REINO DA SORTE. Sua opinião é importante. 🍀`;const div=document.createElement("div");div.className="list-card";div.innerHTML=`<div><a class="linkzap" href="${waLink(m.key,msg)}" target="_blank">${h(m.nome)}</a><br><a class="linkzap small" href="${waLink(m.key,msg)}" target="_blank">${h(m.telefone)}</a></div><button class="btn-dark" type="button" onclick="window.open('${waLink(m.key,msg)}','_blank')">Cobrar</button>`;box.appendChild(div);});}
 function waLink(k,msg){return `https://wa.me/55${chaveTelefone(k)}${msg?`?text=${encodeURIComponent(msg)}`:""}`;}
 
-async function lerArquivoOCR(){const input=document.getElementById("arquivoImportacao"),status=document.getElementById("ocrStatus"),area=document.getElementById("membrosTexto");if(!input.files.length){alert("Selecione imagem ou PDF.");return}const file=input.files[0];status.textContent="Lendo arquivo... aguarde.";try{let texto="";if(file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf")){const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;for(let i=1;i<=pdf.numPages;i++){status.textContent=`Lendo PDF página ${i}/${pdf.numPages}...`;const page=await pdf.getPage(i);const content=await page.getTextContent();let t=content.items.map(item=>item.str).join("\n");if(t.trim().length<20){const vp=page.getViewport({scale:2});const canvas=document.createElement("canvas");canvas.width=vp.width;canvas.height=vp.height;await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;const r=await Tesseract.recognize(canvas.toDataURL("image/png"),"por+eng");t=r.data.text}texto+=t+"\n";}}else{const url=URL.createObjectURL(file);const r=await Tesseract.recognize(url,"por+eng",{logger:m=>{if(m.status)status.textContent=`OCR: ${m.status} ${m.progress?Math.round(m.progress*100)+"%":""}`}});texto=r.data.text;URL.revokeObjectURL(url);}area.value=(area.value.trim()?area.value.trim()+"\n":"")+texto.trim();status.textContent="✅ Leitura concluída. Clique em Pré-visualizar nomes antes de salvar.";preVisualizarMembros();}catch(e){console.error(e);status.textContent="⚠️ Não consegui ler. Tente imagem mais nítida ou cole texto.";}}
-function exportarCSV(){const lista=votosDaEnquete();if(!lista.length)return alert("Nenhuma resposta.");baixarCSV("votos-enquete-reino.csv",[["Data","Enquete","Nome","Telefone","Email","Voto","Bonus","Sugestao"],...lista.map(r=>[r.data,r.pollTitulo,r.nome,r.telefone,r.email,r.voto,r.bonus,r.sugestao||""])]);}
-function exportarMembrosCSV(){const lista=membros();if(!lista.length)return alert("Nenhum membro.");const vks=new Set(votosDaEnquete().map(v=>v.telefoneKey));baixarCSV("membros-enquete-reino.csv",[["Nome","Telefone","Email","Participa","Status"],...lista.map(m=>[m.nome,m.telefone,m.email||"",m.participa===false?"Não":"Sim",vks.has(m.key)?"Votou":"Falta votar"])]);}
-function baixarCSV(nome,linhas){const csv=linhas.map(l=>l.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(";")).join("\n");const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=nome;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);}
-function copiarBaseMembros(){const txt=membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(m=>`${m.nome} - ${m.telefone}${m.email?" - "+m.email:""}`).join("\n");navigator.clipboard.writeText(txt).then(()=>alert("Lista copiada."));}
-function limparVotos(){if(confirm("Apagar votos da enquete atual?")){const id=poll().id;salvarVotos(votos().filter(v=>v.pollId!==id));atualizarTudo();}}
-function limparMembros(){if(confirm("Apagar todos os membros cadastrados?")){localStorage.removeItem(LS_MEMBROS);atualizarTudo();}}
+async function lerArquivoOCR(){
+ const input=document.getElementById("arquivoImportacao"),status=document.getElementById("ocrStatus"),area=document.getElementById("membrosTexto");
+ if(!input.files.length){alert("Selecione imagem ou PDF.");return}
+ const file=input.files[0];status.textContent="Lendo arquivo... aguarde.";
+ try{
+  let texto="";
+  if(file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf")){
+    const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+    for(let i=1;i<=pdf.numPages;i++){
+      status.textContent=`Lendo PDF página ${i}/${pdf.numPages}...`;
+      const page=await pdf.getPage(i);
+      const content=await page.getTextContent();
+      let t=content.items.map(item=>item.str).join("\n");
+      if(t.trim().length<20){
+        const vp=page.getViewport({scale:2});
+        const canvas=document.createElement("canvas");canvas.width=vp.width;canvas.height=vp.height;
+        await page.render({canvasContext:canvas.getContext("2d"),viewport:vp}).promise;
+        const r=await Tesseract.recognize(canvas.toDataURL("image/png"),"por+eng");
+        t=r.data.text;
+      }
+      texto+=t+"\n";
+    }
+  }else{
+    const url=URL.createObjectURL(file);
+    const r=await Tesseract.recognize(url,"por+eng",{logger:m=>{if(m.status)status.textContent=`OCR: ${m.status} ${m.progress?Math.round(m.progress*100)+"%":""}`}});
+    texto=r.data.text;URL.revokeObjectURL(url);
+  }
+  area.value=(area.value.trim()?area.value.trim()+"\n":"")+texto.trim();
+  status.textContent="✅ Leitura concluída. Clique em Pré-visualizar nomes antes de salvar.";
+  preVisualizarMembros();
+ }catch(e){console.error(e);status.textContent="⚠️ Não consegui ler. Tente imagem mais nítida ou cole texto.";}
+}
+
+function exportarCSV(){
+ const lista=votos();if(!lista.length)return alert("Nenhuma resposta.");
+ baixarCSV("votos-enquete-reino.csv",[["Data","Nome","Telefone","Email","Voto","Bonus","Sugestao"],...lista.map(r=>[r.data,r.nome,r.telefone,r.email,r.voto,r.bonus,r.sugestao||""])]);
+}
+function exportarMembrosCSV(){
+ const lista=membros();if(!lista.length)return alert("Nenhum membro.");
+ const vks=new Set(votos().map(v=>v.telefoneKey));
+ baixarCSV("membros-enquete-reino.csv",[["Nome","Telefone","Email","Status"],...lista.map(m=>[m.nome,m.telefone,m.email||"",vks.has(m.key)?"Votou":"Falta votar"])]);
+}
+function baixarCSV(nome,linhas){
+ const csv=linhas.map(l=>l.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(";")).join("\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=nome;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function copiarBaseMembros(){
+ const txt=membros().sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(m=>`${m.nome} - ${m.telefone}${m.email?" - "+m.email:""}`).join("\n");
+ navigator.clipboard.writeText(txt).then(()=>alert("Lista copiada."));
+}
+function limparVotos(){if(confirm("Apagar todos os votos deste celular?")){localStorage.removeItem(LS_VOTOS);atualizarTudo();}}
+function limparMembros(){if(confirm("Apagar todos os membros cadastrados deste celular?")){localStorage.removeItem(LS_MEMBROS);atualizarTudo();}}
 function h(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
-
-/* ===== REFINO V3.7 — CONTATOS / NOMES / E-MAIL ===== */
-const NOME_POR_TELEFONE_V37 = {
-  "88981296930":"Alice Nabor",
-  "87991411939":"Cleyton Silva",
-  "88988330147":"José Eduardo",
-  "88981703564":"Dam",
-  "11993308587":"Dev",
-  "88988940412":"Ana Raissa",
-  "85988725043":"Kyara",
-  "88981612830":"Caeline",
-  "88981642062":"Elaine Mariano",
-  "88994943632":"Escritório Reino da Sorte",
-  "88982354554":"Giovanna",
-  "88981477848":"Jamilles Izidório",
-  "87999999999":"Junior Vendas",
-  "88988216885":"Márcia Silva",
-  "88988898619":"Maria Luana",
-  "88981176361":"Aline dos Maroto",
-  "88988019597":"O Graça Vendas",
-  "88988158745":"Samara",
-  "87933008587":"Suporte",
-  "88988656676":"Tacilary Andra",
-  "88981805250":"Taína Fideles",
-  "88981243042":"Tamiles Cristina",
-  "61999604657":"Valter Junior",
-  "88996263082":"Maria do Socorro",
-  "87991841301":"Vieira Junior",
-  "88988613539":"Yohani Alves"
-};
-
-const NOME_POR_EMAIL_V37 = {
-  "alicenabor991":"Alice Nabor",
-  "cleyton.reinodasorte":"Cleyton Silva",
-  "joseeduardovieiralemos":"José Eduardo",
-  "danr132540":"Dam",
-  "dev":"Dev",
-  "anaraissaleite571":"Ana Raissa",
-  "garciadossantosanakyara":"Kyara",
-  "caelinecoelhodeoliveira":"Caeline",
-  "elainemariano4678":"Elaine Mariano",
-  "bancareinodasorte":"Escritório Reino da Sorte",
-  "giovannajulia":"Giovanna",
-  "mariaizidoro23":"Jamilles Izidório",
-  "juniorsouzaj697":"Junior Vendas",
-  "davimarcia2650":"Márcia Silva",
-  "marialuanagaldino40":"Maria Luana",
-  "alineleite1210":"Aline dos Maroto",
-  "matheuscantor8850":"O Graça Vendas",
-  "samarasouza202626":"Samara",
-  "suporte":"Suporte",
-  "tacilaryandraryandra11":"Tacilary Andra",
-  "fidelestainafideles":"Taína Fideles",
-  "tamilescristina80":"Tamiles Cristina",
-  "mariadosocorredasilva":"Maria do Socorro",
-  "vieirajunior180":"Vieira Junior",
-  "yohanialves01":"Yohani Alves"
-};
-
-function normalizarNomeV37(nome){
-  return String(nome||"")
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g," ")
-    .trim();
-}
-
-function nomePareceEmailOuLixoV37(nome){
-  const n = String(nome||"").trim();
-  const nn = normalizarNomeV37(n);
-  if(!n) return true;
-  if(/^contato\s+\d+/i.test(n)) return true;
-  if(/^membro\s+\d+/i.test(n)) return true;
-  if(/@|gmail|icloud|hotmail|outlook|yahoo|\.com|com\.br/i.test(n)) return true;
-  if(/\b(dispositivo autorizado|authorized device|e mail|email|telefone|whatsapp|status|users|member|membros|contato)\b/i.test(n)) return true;
-  if(nn.length < 3) return true;
-  if(/^\d+$/.test(nn)) return true;
-  return false;
-}
-
-function nomePorEmailV37(email){
-  const e = String(email||"").toLowerCase().trim();
-  if(!e) return "";
-  const prefix = e.split("@")[0].replace(/[^a-z0-9._-]/g,"").toLowerCase();
-
-  for(const chave in NOME_POR_EMAIL_V37){
-    if(prefix === chave || prefix.includes(chave) || chave.includes(prefix)){
-      return NOME_POR_EMAIL_V37[chave];
-    }
-  }
-
-  let nome = prefix
-    .replace(/\d+/g," ")
-    .replace(/[._-]+/g," ")
-    .replace(/\b(gmail|icloud|hotmail|outlook|yahoo|com|br)\b/g," ")
-    .replace(/\s+/g," ")
-    .trim();
-
-  if(!nome || nome.length < 3) return "";
-  return nome.split(" ").map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
-}
-
-function corrigirNomeRegistro(reg){
-  const r = {...reg};
-  const porTelefone = NOME_POR_TELEFONE_V37[r.key] || "";
-  const porEmail = nomePorEmailV37(r.email);
-
-  if(porTelefone){
-    if(nomePareceEmailOuLixoV37(r.nome) || normalizarNomeV37(r.nome).length <= 10 || /^(maroto|vendas|cobertura)$/i.test(String(r.nome||"").trim())){
-      r.nome = porTelefone;
-    }
-  }
-
-  if(nomePareceEmailOuLixoV37(r.nome) && porEmail){
-    r.nome = porEmail;
-  }
-
-  if(nomePareceEmailOuLixoV37(r.nome)){
-    r.nome = "Contato " + String(r.key||"").slice(-4);
-  }
-
-  if(r.nome){
-    r.nome = String(r.nome).replace(/\s+/g," ").trim();
-  }
-
-  return r;
-}
-
-function corrigirDuplicadosV37(lista){
-  const porKey = {};
-  lista.forEach(item=>{
-    const r = corrigirNomeRegistro({...item});
-    if(!r.key) return;
-    if(!porKey[r.key]){
-      porKey[r.key] = r;
-    }else{
-      // Prioriza nome real contra nome genérico/e-mail
-      const atualRuim = nomePareceEmailOuLixoV37(porKey[r.key].nome);
-      const novoBom = !nomePareceEmailOuLixoV37(r.nome);
-      if(atualRuim && novoBom) porKey[r.key].nome = r.nome;
-      if(!porKey[r.key].email && r.email) porKey[r.key].email = r.email;
-      porKey[r.key].telefone = r.telefone || porKey[r.key].telefone;
-      porKey[r.key].participa = porKey[r.key].participa !== false;
-    }
-  });
-
-  // Evita nomes duplicados exatos: mantém, mas identifica pelo final do telefone se necessário
-  const contagemNome = {};
-  Object.values(porKey).forEach(r=>{
-    const nn = normalizarNomeV37(r.nome);
-    if(nn) contagemNome[nn] = (contagemNome[nn]||0)+1;
-  });
-
-  Object.values(porKey).forEach(r=>{
-    const nn = normalizarNomeV37(r.nome);
-    if(contagemNome[nn] > 1 && !/\d{4}$/.test(r.nome)){
-      r.nome = `${r.nome} (${String(r.key).slice(-4)})`;
-    }
-  });
-
-  return Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
-}
-
-// Sobrescreve a função de correção manual para aplicar o refinamento V3.7.
-function corrigirNomesAutomatico(){
-  const lista = corrigirDuplicadosV37(membros());
-  salvarMembros(lista);
-  atualizarTudo();
-  alert("Refino V3.7 aplicado: nomes por telefone/e-mail corrigidos, e-mails removidos da coluna Nome e duplicados tratados.");
-}
-
-init();
+atualizarTudo();
 </script>
 </body>
 </html>
