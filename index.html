@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enquete Oficial — Reino da Sorte V3.7.2</title>
+<title>Enquete Oficial — Reino da Sorte V3.8</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -118,6 +118,49 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
   font-weight:900;
 }
 
+
+.resultados-adm{
+  background:linear-gradient(135deg,#f8fbff,#ffffff);
+  border:2px solid rgba(246,199,74,.55);
+  border-radius:20px;
+  padding:16px;
+  margin-top:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+.result-line{
+  margin:12px 0;
+  padding:12px;
+  border-radius:16px;
+  background:#f8fbff;
+  border:1px solid #dbe7ff;
+}
+.result-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  font-weight:900;
+  color:#061b4e;
+}
+.result-bar{
+  height:14px;
+  background:#dbe7ff;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.result-bar span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#f6c74a,#16a34a);
+}
+.result-subtitle{
+  margin-top:18px;
+  font-weight:900;
+  color:#061b4e;
+  font-size:18px;
+}
+
 </style>
 </head>
 <body>
@@ -169,6 +212,13 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 <div class="actions" style="margin:0"><button class="btn-light" onclick="exportarCSV()">Exportar votos CSV</button><button class="btn-light" onclick="exportarMembrosCSV()">Exportar membros CSV</button><button class="btn-danger" onclick="limparVotos()">Limpar votos da enquete</button></div>
 </div>
 <div class="stats"><div class="stat"><h2>Total membros</h2><span class="pill" id="adminMembros">0 cadastrados</span></div><div class="stat"><h2>Responderam</h2><span class="pill" id="adminTotal">0 respostas</span></div><div class="stat"><h2>Faltam</h2><span class="pill" id="adminFaltam">0 vendedores</span></div></div>
+
+
+<div class="resultados-adm">
+  <h2 style="margin-bottom:6px">Resultado parcial da enquete</h2>
+  <p class="small">Visível somente no painel ADM. Os vendedores não veem qual opção está ganhando.</p>
+  <div id="resultadoParcialAdm"></div>
+</div>
 
 <div class="tabs">
 <div class="tab active" onclick="abrirAba('votos',this)">Votos</div>
@@ -396,7 +446,47 @@ function buscarMembro(t){const k=chaveTelefone(t);if(!k)return null;return membr
 function erro(msg){const b=document.getElementById("errorBox");if(!msg){b.style.display="none";b.textContent="";return}b.textContent="⚠️ "+msg;b.style.display="block";document.getElementById("successBox").style.display="none";}
 function abrirAdmin(){const senha=prompt("Digite a senha do ADM:");if(senha!==CONFIG_PADRAO.senhaAdm){alert("Senha incorreta.");return}document.getElementById("adminArea").style.display="block";atualizarTudo();document.getElementById("adminArea").scrollIntoView({behavior:"smooth"});}
 function abrirAba(nome,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));document.getElementById("painel-"+nome).classList.add("active");atualizarTudo();}
-function atualizarTudo(){atualizarProgresso();atualizarAdmin();renderMembros();renderFaltantes();renderParticipantes();renderEnvio();}
+
+function renderResultadoParcialAdm(){
+ const box=document.getElementById("resultadoParcialAdm");
+ if(!box)return;
+
+ const lista=votosDaEnquete();
+ const total=lista.length;
+
+ if(!total){
+   box.innerHTML='<div class="result-line"><strong>Nenhum voto registrado ainda.</strong></div>';
+   return;
+ }
+
+ const contar=(campo)=>{
+   const mapa={};
+   lista.forEach(v=>{
+     const chave=(v[campo]||"Sem resposta").trim();
+     mapa[chave]=(mapa[chave]||0)+1;
+   });
+   return Object.entries(mapa).sort((a,b)=>b[1]-a[1]);
+ };
+
+ const bloco=(titulo,campo)=>{
+   const linhas=contar(campo).map(([nome,qtd])=>{
+     const pct=Math.round((qtd/total)*100);
+     return `<div class="result-line">
+       <div class="result-top"><span>${h(nome)}</span><span>${qtd} voto(s) • ${pct}%</span></div>
+       <div class="result-bar"><span style="width:${pct}%"></span></div>
+     </div>`;
+   }).join("");
+   return `<div class="result-subtitle">${titulo}</div>${linhas}`;
+ };
+
+ box.innerHTML=`
+   <div class="pill">${total} voto(s) computado(s)</div>
+   ${bloco("Opções da enquete","voto")}
+   ${bloco("Bônus / Meta","bonus")}
+ `;
+}
+
+function atualizarTudo(){atualizarProgresso();atualizarAdmin();renderResultadoParcialAdm();renderMembros();renderFaltantes();renderParticipantes();renderEnvio();}
 function membrosParticipantes(){return membros().filter(m=>m.participa!==false)}
 function votosDaEnquete(){const p=poll();return votos().filter(v=>v.pollId===p.id)}
 function atualizarProgresso(){const total=membrosParticipantes().length,resp=votosDaEnquete().length,pct=total?Math.min(100,Math.round(resp/total*100)):0;document.getElementById("progressText").textContent=`${resp} de ${total} responderam`;document.getElementById("progressBar").style.width=pct+"%";}
@@ -573,7 +663,7 @@ function limparVotos(){if(confirm("Apagar votos da enquete atual?")){const id=po
 function limparMembros(){if(confirm("Apagar todos os membros cadastrados?")){localStorage.removeItem(LS_MEMBROS);atualizarTudo();}}
 function h(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
 
-/* ===== REFINO V3.7.2 — CONTATOS / NOMES / E-MAIL ===== */
+/* ===== REFINO V3.8 — CONTATOS / NOMES / E-MAIL ===== */
 const NOME_POR_TELEFONE_V37 = {
   "88981296930":"Alice Nabor",
   "87991411939":"Cleyton Silva",
@@ -735,12 +825,12 @@ function corrigirDuplicadosV37(lista){
   return Object.values(porKey).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));
 }
 
-// Sobrescreve a função de correção manual para aplicar o refinamento V3.7.2.
+// Sobrescreve a função de correção manual para aplicar o refinamento V3.8.
 function corrigirNomesAutomatico(){
   const lista = corrigirDuplicadosV37(membros());
   salvarMembros(lista);
   atualizarTudo();
-  alert("Refino V3.7.2 aplicado: nomes por telefone/e-mail corrigidos, e-mails removidos da coluna Nome e duplicados tratados.");
+  alert("Refino V3.8 aplicado: nomes por telefone/e-mail corrigidos, e-mails removidos da coluna Nome e duplicados tratados.");
 }
 
 init();

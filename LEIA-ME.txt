@@ -1,10 +1,12 @@
-REINO DA SORTE — V3.7.2 SELEÇÃO CORRIGIDA
+REINO DA SORTE — V3.8 RESULTADOS NO PAINEL ADM
 
-Correção:
-- Opção 1 ou 2 agora mostra selo dentro do card: ✓ OPÇÃO SELECIONADA.
-- Bônus/meta mostra selo dentro do card.
-- Adicionado resumo verde da seleção antes do botão Enviar.
-- Mantém todo o restante intacto.
+Ajuste final:
+- Resultado parcial visível somente no painel ADM.
+- Mostra total de votos computados.
+- Mostra porcentagem e quantidade por Opção 1/2.
+- Mostra porcentagem e quantidade por Bônus/Meta.
+- Barras visuais de progresso por opção.
+- Vendedores continuam sem ver qual opção está ganhando.
 
 Substitua no GitHub:
 - index.html
