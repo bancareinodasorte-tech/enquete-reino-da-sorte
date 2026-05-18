@@ -1,12 +1,13 @@
-REINO DA SORTE — V3.8 RESULTADOS NO PAINEL ADM
+REINO DA SORTE — ENQUETE SORTEIOS ATUALIZADA
 
-Ajuste final:
-- Resultado parcial visível somente no painel ADM.
-- Mostra total de votos computados.
-- Mostra porcentagem e quantidade por Opção 1/2.
-- Mostra porcentagem e quantidade por Bônus/Meta.
-- Barras visuais de progresso por opção.
-- Vendedores continuam sem ver qual opção está ganhando.
+Opção 1:
+Terça: R$ 1.000 + 3 extras de R$ 50
+Quinta: R$ 1.000 + 3 extras de R$ 50
+Sábado: R$ 2.000 + 3 extras de R$ 100
+
+Opção 2:
+Quarta: R$ 1.500 + 3 extras de R$ 100
+Sábado: R$ 2.500 + 3 extras de R$ 100
 
 Substitua no GitHub:
 - index.html
