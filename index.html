@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enquete Oficial — Reino da Sorte FINAL CORRIGIDO</title>
+<title>Enquete Oficial — Reino da Sorte FINAL BONUS OFF</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
@@ -239,6 +239,16 @@ body.bonus-off #bonusDisabledNote{
   display:block;
 }
 
+
+/* ===== CORREÇÃO FINAL: BÔNUS OFF SOME 100% PARA VENDEDOR ===== */
+body.bonus-off #bonusPublicoCard,
+body.bonus-off #bonusVotacao,
+body.bonus-off .bonus-option,
+body.bonus-off #bonusDisabledNote,
+body.bonus-off .bonus-disabled-note{
+  display:none!important;
+}
+
 </style>
 
 <script>
@@ -307,7 +317,7 @@ body.bonus-off #bonusDisabledNote{
 <h2>Bônus | % | Meta</h2>
 <div class="bonus-row" id="bonusVotacao"></div>
 </div>
-<div class="resumo-selecao" id="resumoSelecao"></div><div class="bonus-disabled-note" id="bonusDisabledNote">Bônus/meta desativado nesta enquete.</div>
+<div class="resumo-selecao" id="resumoSelecao"></div>
 <div class="actions"><button class="btn-primary flex" type="submit">Enviar meu voto</button><button class="btn-dark" type="button" onclick="abrirAdmin()">Área ADM</button></div>
 <div class="msg success" id="successBox">✅ Voto enviado com sucesso.</div><div class="msg error" id="errorBox"></div>
 </form>
@@ -505,6 +515,12 @@ function bonusAtivoAtual(){
 function aplicarBonusVisual(){
   const ativo=bonusAtivoAtual();
   document.body.classList.toggle("bonus-off", !ativo);
+
+  const cardBonus=document.getElementById("bonusPublicoCard");
+  if(cardBonus){
+    cardBonus.style.display = ativo ? "" : "none";
+  }
+
   const sw=document.getElementById("bonusAtivoSwitch");
   if(sw) sw.checked=ativo;
 }
@@ -513,6 +529,14 @@ function salvarBonusAtivo(){
   const p=poll();
   const sw=document.getElementById("bonusAtivoSwitch");
   p.bonusAtivo = sw ? !!sw.checked : true;
+
+  if(!p.bonusAtivo){
+    bonusSelecionado="Bônus/meta desativado";
+    document.querySelectorAll(".bonus-option").forEach(c=>c.classList.remove("selected"));
+  }else if(bonusSelecionado==="Bônus/meta desativado"){
+    bonusSelecionado="";
+  }
+
   salvarPoll(p);
   renderPublico();
   aplicarBonusVisual();
@@ -521,39 +545,72 @@ function salvarBonusAtivo(){
 
 function renderPublico(){
  const p=poll();
+
  document.getElementById("tituloPublico").textContent=p.titulo;
  document.getElementById("descricaoPublica").textContent=p.descricao;
- const ops=document.getElementById("opcoesVotacao");ops.innerHTML="";
+
+ const ops=document.getElementById("opcoesVotacao");
+ ops.innerHTML="";
+
  p.opcoes.forEach(o=>{
-  const div=document.createElement("div");div.className="card option-card";div.dataset.vote=o.titulo;
+  const div=document.createElement("div");
+  div.className="card option-card";
+  div.dataset.vote=o.titulo;
   div.innerHTML=`<h2>${h(o.titulo)}</h2><div class="day">${h(o.texto)}</div><div class="selecionado-badge">✓ OPÇÃO SELECIONADA</div>`;
+
   div.addEventListener("click",()=>{
     document.querySelectorAll(".option-card").forEach(c=>c.classList.remove("selected"));
     div.classList.add("selected");
-    votoSelecionado=o.titulo; atualizarResumoSelecao();
+    votoSelecionado=o.titulo;
+    atualizarResumoSelecao();
   });
+
   ops.appendChild(div);
  });
- const bon=document.getElementById("bonusVotacao");bon.innerHTML=""; if(!bonusAtivoAtual()){bonusSelecionado="Bônus/meta desativado";}
+
+ const bon=document.getElementById("bonusVotacao");
+ const cardBonus=document.getElementById("bonusPublicoCard");
+
+ if(bon) bon.innerHTML="";
+
+ if(!bonusAtivoAtual()){
+   bonusSelecionado="Bônus/meta desativado";
+   document.body.classList.add("bonus-off");
+   if(cardBonus) cardBonus.style.display="none";
+   return;
+ }
+
+ document.body.classList.remove("bonus-off");
+ if(cardBonus) cardBonus.style.display="";
+
  p.bonus.forEach(b=>{
-  const div=document.createElement("div");div.className="bonus-option";div.dataset.bonus=b.texto;
+  const div=document.createElement("div");
+  div.className="bonus-option";
+  div.dataset.bonus=b.texto;
   div.innerHTML=`${h(b.texto)}<div class="selecionado-badge">✓ BÔNUS SELECIONADO</div>`;
+
   div.addEventListener("click",()=>{
     document.querySelectorAll(".bonus-option").forEach(c=>c.classList.remove("selected"));
     div.classList.add("selected");
-    bonusSelecionado=b.texto; atualizarResumoSelecao();
+    bonusSelecionado=b.texto;
+    atualizarResumoSelecao();
   });
+
   bon.appendChild(div);
  });
 }
 
-
 function atualizarResumoSelecao(){
  const box=document.getElementById("resumoSelecao");
  if(!box)return;
- if(votoSelecionado || bonusSelecionado){
+
+ const bonusLinha = bonusAtivoAtual()
+   ? (bonusSelecionado ? "• Bônus/meta selecionado" : "• Escolha um bônus/meta")
+   : "";
+
+ if(votoSelecionado || (bonusAtivoAtual() && bonusSelecionado)){
    box.style.display="block";
-   box.innerHTML=`✅ Seleção atual:<br>${votoSelecionado?("• "+h(votoSelecionado)):"• Escolha uma opção 1 ou 2"}<br>${bonusSelecionado?"• Bônus/meta selecionado":"• Escolha um bônus/meta"}`;
+   box.innerHTML=`✅ Seleção atual:<br>${votoSelecionado?("• "+h(votoSelecionado)):"• Escolha uma opção 1 ou 2"}${bonusLinha ? "<br>"+bonusLinha : ""}`;
  }else{
    box.style.display="none";
    box.innerHTML="";

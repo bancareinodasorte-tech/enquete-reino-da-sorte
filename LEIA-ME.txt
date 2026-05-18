@@ -1,21 +1,23 @@
-PROJETO ENQUETE REINO DA SORTE — FINAL CORRIGIDO
+ENQUETE REINO DA SORTE — FINAL BÔNUS OFF CORRIGIDO
 
 Correção feita:
-- O campo "Código de acesso" já estava removido da tela.
-- O JavaScript ainda tentava ler esse campo inexistente.
-- Isso foi corrigido para o botão "Enviar meu voto" funcionar sem código.
+- Quando a chave Bônus/meta está desligada no ADM, o vendedor NÃO vê mais nada de bônus.
+- Some o card inteiro "Bônus | % | Meta".
+- Some as opções de bônus.
+- Some aviso de bônus desativado.
+- O voto não exige bônus quando a chave está desligada.
+- A chave continua somente no painel ADM.
 
-Mantido:
+Também mantido:
+- campo Código de acesso removido
 - telefone como controle de acesso
 - painel ADM
 - membros
 - participantes
-- votos
 - resultados parciais
 - OCR
 - WhatsApp
-- imagens oficiais
-- estrutura da base enviada pelo usuário
+- exportações
 
 Substitua no GitHub:
 - index.html
