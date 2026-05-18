@@ -1,17 +1,11 @@
-NOVO PROJ. ENQUETE — FINAL COM CHAVE BÔNUS CORRIGIDA
+NOVO PROJ. ENQUETE — REFINADO SEM DUPLICAR BÔNUS
 
 Correção:
-- A chave Bônus/meta agora aparece dentro da aba "Enquete".
-- Se desligar, a área Bônus | % | Meta some para os vendedores.
-- Se desligar, o voto não exige bônus.
-- Se ligar, o bônus aparece e volta a ser obrigatório.
-- Campo Código de acesso permanece removido.
-
-Como usar:
-1. Abra Área ADM.
-2. Entre na aba "Enquete".
-3. Use a chave "Bônus/meta nesta enquete".
-4. Clique em Salvar enquete se quiser manter a configuração.
+- Removido aviso duplicado de "Bônus/meta desativado".
+- Mantido apenas um aviso quando o bônus estiver desligado.
+- Mantida a chave Bônus/meta.
+- Mantido acesso sem código.
+- Mantidos painel ADM, contatos, votos, resultados e WhatsApp.
 
 Substitua no GitHub:
 - index.html

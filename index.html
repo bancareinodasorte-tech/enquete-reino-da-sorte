@@ -235,9 +235,7 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 body.bonus-off #bonusPublicoCard{
   display:none!important;
 }
-body.bonus-off #bonusDisabledNote{
-  display:block;
-}
+
 
 
 /* ===== CHAVE BÔNUS CORRIGIDA ===== */
@@ -329,6 +327,12 @@ body.bonus-off #bonusDisabledNote{
   font-weight:900;
 }
 
+
+#bonusDisabledNotice{
+  margin-bottom:14px;
+  text-align:center;
+}
+
 </style>
 
 <script>
@@ -397,7 +401,7 @@ body.bonus-off #bonusDisabledNote{
 <h2>Bônus | % | Meta</h2>
 <div class="bonus-row" id="bonusVotacao"></div>
 </div>
-<div class="resumo-selecao" id="resumoSelecao"></div><div class="bonus-disabled-note" id="bonusDisabledNote">Bônus/meta desativado nesta enquete.</div>
+<div class="resumo-selecao" id="resumoSelecao"></div>
 <div id="bonusDisabledNotice">Bônus/meta desativado nesta enquete.</div>
 <div class="actions"><button class="btn-primary flex" type="submit">Enviar meu voto</button><button class="btn-dark" type="button" onclick="abrirAdmin()">Área ADM</button></div>
 <div class="msg success" id="successBox">✅ Voto enviado com sucesso.</div><div class="msg error" id="errorBox"></div>
