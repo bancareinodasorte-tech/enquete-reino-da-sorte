@@ -163,7 +163,7 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 
 
 .bonus-switch-area{
-  display:none;
+  display:block;
   background:rgba(255,255,255,.98);
   border-radius:22px;
   padding:18px;
@@ -239,6 +239,96 @@ body.bonus-off #bonusDisabledNote{
   display:block;
 }
 
+
+/* ===== CHAVE BÔNUS CORRIGIDA ===== */
+.bonus-toggle-box{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:#f8fbff;
+  border:1px solid #dbe7ff;
+}
+.bonus-toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.bonus-toggle-title{
+  font-weight:900;
+  color:#061b4e;
+}
+.bonus-toggle-help{
+  font-size:13px;
+  color:#445371;
+  margin-top:4px;
+  line-height:1.35;
+}
+.toggle-switch{
+  position:relative;
+  display:inline-block;
+  width:66px;
+  height:36px;
+  flex:0 0 auto;
+}
+.toggle-switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+.toggle-slider{
+  position:absolute;
+  cursor:pointer;
+  inset:0;
+  background:#cbd5e1;
+  transition:.2s;
+  border-radius:999px;
+}
+.toggle-slider:before{
+  content:"";
+  position:absolute;
+  height:28px;
+  width:28px;
+  left:4px;
+  top:4px;
+  background:white;
+  transition:.2s;
+  border-radius:50%;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+}
+.toggle-switch input:checked + .toggle-slider{
+  background:#16a34a;
+}
+.toggle-switch input:checked + .toggle-slider:before{
+  transform:translateX(30px);
+}
+.bonus-status-pill{
+  display:inline-block;
+  margin-top:10px;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  background:#eef3ff;
+  color:#061b4e;
+}
+.bonus-off #bonusPublicoCard{
+  display:none!important;
+}
+.bonus-off #bonusDisabledNotice{
+  display:block!important;
+}
+#bonusDisabledNotice{
+  display:none;
+  margin-top:16px;
+  padding:14px;
+  border-radius:18px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  font-weight:900;
+}
+
 </style>
 
 <script>
@@ -308,6 +398,7 @@ body.bonus-off #bonusDisabledNote{
 <div class="bonus-row" id="bonusVotacao"></div>
 </div>
 <div class="resumo-selecao" id="resumoSelecao"></div><div class="bonus-disabled-note" id="bonusDisabledNote">Bônus/meta desativado nesta enquete.</div>
+<div id="bonusDisabledNotice">Bônus/meta desativado nesta enquete.</div>
 <div class="actions"><button class="btn-primary flex" type="submit">Enviar meu voto</button><button class="btn-dark" type="button" onclick="abrirAdmin()">Área ADM</button></div>
 <div class="msg success" id="successBox">✅ Voto enviado com sucesso.</div><div class="msg error" id="errorBox"></div>
 </form>
@@ -485,6 +576,44 @@ const salvarPoll=p=>localStorage.setItem(LS_POLL,JSON.stringify(p));
 const salvarEnvio=e=>localStorage.setItem(LS_ENVIO,JSON.stringify(e));
 if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}
 
+
+/* ===== FUNÇÕES BÔNUS CORRIGIDAS ===== */
+function bonusAtivoAtual(){
+  try{
+    const p = poll();
+    return p.bonusAtivo !== false;
+  }catch(e){
+    return true;
+  }
+}
+function aplicarBonusVisual(){
+  const ativo = bonusAtivoAtual();
+  document.body.classList.toggle("bonus-off", !ativo);
+  const sw = document.getElementById("bonusAtivoSwitch");
+  if(sw) sw.checked = ativo;
+  const st = document.getElementById("bonusStatusText");
+  if(st){
+    st.textContent = ativo ? "Bônus ligado" : "Bônus desligado";
+    st.style.background = ativo ? "#eafff1" : "#fff7ed";
+    st.style.color = ativo ? "#166534" : "#9a3412";
+  }
+}
+function salvarBonusAtivo(){
+  const p = poll();
+  const sw = document.getElementById("bonusAtivoSwitch");
+  p.bonusAtivo = sw ? !!sw.checked : true;
+  salvarPoll(p);
+  if(!p.bonusAtivo){
+    bonusSelecionado = "Bônus/meta desativado";
+    document.querySelectorAll(".bonus-option").forEach(c=>c.classList.remove("selected"));
+  }else if(bonusSelecionado === "Bônus/meta desativado"){
+    bonusSelecionado = "";
+  }
+  renderPublico();
+  aplicarBonusVisual();
+  atualizarTudo();
+}
+
 function init(){
  renderPublico();aplicarBonusVisual();carregarFormEnquete();carregarEnvio();atualizarTudo();aplicarBonusVisual();
  document.getElementById("sugestao").addEventListener("input",function(){document.getElementById("charCount").textContent=this.value.length;});
@@ -534,7 +663,7 @@ function renderPublico(){
   });
   ops.appendChild(div);
  });
- const bon=document.getElementById("bonusVotacao");bon.innerHTML=""; if(!bonusAtivoAtual()){bonusSelecionado="Bônus/meta desativado";}
+ const bon=document.getElementById("bonusVotacao");bon.innerHTML=""; if(!bonusAtivoAtual()){bonusSelecionado="Bônus/meta desativado"; aplicarBonusVisual(); return;} if(!bonusAtivoAtual()){bonusSelecionado="Bônus/meta desativado"; aplicarBonusVisual(); return;}
  p.bonus.forEach(b=>{
   const div=document.createElement("div");div.className="bonus-option";div.dataset.bonus=b.texto;
   div.innerHTML=`${h(b.texto)}<div class="selecionado-badge">✓ BÔNUS SELECIONADO</div>`;
@@ -634,7 +763,7 @@ function renderResultadoParcialAdm(){
  `;
 }
 
-function atualizarTudo(){atualizarProgresso();atualizarAdmin();renderResultadoParcialAdm();renderMembros();renderFaltantes();renderParticipantes();renderEnvio();}
+function atualizarTudo(){aplicarBonusVisual();atualizarProgresso();atualizarAdmin();renderResultadoParcialAdm();renderMembros();renderFaltantes();renderParticipantes();renderEnvio();}
 function membrosParticipantes(){return membros().filter(m=>m.participa!==false)}
 function votosDaEnquete(){const p=poll();return votos().filter(v=>v.pollId===p.id)}
 function atualizarProgresso(){const total=membrosParticipantes().length,resp=votosDaEnquete().length,pct=total?Math.min(100,Math.round(resp/total*100)):0;document.getElementById("progressText").textContent=`${resp} de ${total} responderam`;document.getElementById("progressBar").style.width=pct+"%";}
@@ -791,7 +920,7 @@ function salvarParticipantes(){const mapa={};document.querySelectorAll("[data-pa
 function carregarFormEnquete(){const p=poll();document.getElementById("pollTitulo").value=p.titulo;document.getElementById("pollDescricao").value=p.descricao;document.getElementById("pollOp1Titulo").value=p.opcoes[0].titulo;document.getElementById("pollOp1Texto").value=p.opcoes[0].texto;document.getElementById("pollOp2Titulo").value=p.opcoes[1].titulo;document.getElementById("pollOp2Texto").value=p.opcoes[1].texto;document.getElementById("pollBonus1").value=p.bonus[0].texto;document.getElementById("pollBonus2").value=p.bonus[1].texto;
 }
 function salvarEnquete(){const p=poll();p.titulo=document.getElementById("pollTitulo").value.trim()||p.titulo;p.descricao=document.getElementById("pollDescricao").value.trim()||p.descricao;p.opcoes[0].titulo=document.getElementById("pollOp1Titulo").value.trim()||p.opcoes[0].titulo;p.opcoes[0].texto=document.getElementById("pollOp1Texto").value.trim()||p.opcoes[0].texto;p.opcoes[1].titulo=document.getElementById("pollOp2Titulo").value.trim()||p.opcoes[1].titulo;p.opcoes[1].texto=document.getElementById("pollOp2Texto").value.trim()||p.opcoes[1].texto;p.bonus[0].texto=document.getElementById("pollBonus1").value.trim()||p.bonus[0].texto;p.bonus[1].texto=document.getElementById("pollBonus2").value.trim()||p.bonus[1].texto;
-salvarPoll(p);renderPublico();const msg=document.getElementById("pollMsg");msg.style.display="block";msg.textContent="✅ Enquete salva.";atualizarTudo();}
+const sw=document.getElementById("bonusAtivoSwitch"); if(sw) p.bonusAtivo=!!sw.checked; salvarPoll(p);renderPublico();aplicarBonusVisual();const msg=document.getElementById("pollMsg");msg.style.display="block";msg.textContent="✅ Enquete salva.";atualizarTudo();}
 function novaEnquete(){if(!confirm("Criar nova enquete e zerar votos da enquete atual? Os membros serão mantidos."))return;const p=poll();p.id="enquete_"+Date.now();salvarPoll(p);salvarVotos(votos().filter(v=>v.pollId!==p.id));carregarFormEnquete();atualizarTudo();alert("Nova enquete criada. Edite os dados e salve.");}
 function duplicarEnquete(){const p=poll();p.id="enquete_"+Date.now();p.titulo=p.titulo+" (nova)";salvarPoll(p);carregarFormEnquete();renderPublico();atualizarTudo();alert("Enquete duplicada. Edite se necessário.");}
 

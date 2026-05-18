@@ -1,17 +1,17 @@
-NOVO PROJ. ENQUETE — FINAL SEM CÓDIGO DE ACESSO
+NOVO PROJ. ENQUETE — FINAL COM CHAVE BÔNUS CORRIGIDA
 
-Alteração solicitada:
-- Removido o campo "Código de acesso".
-- Removida a validação por código.
-- Agora o controle principal é pelo telefone cadastrado na lista de membros.
-- Mantida a chave Bônus/meta.
-- Mantidos contatos, participantes, painel ADM, OCR, resultados, WhatsApp, faltantes e exportações.
+Correção:
+- A chave Bônus/meta agora aparece dentro da aba "Enquete".
+- Se desligar, a área Bônus | % | Meta some para os vendedores.
+- Se desligar, o voto não exige bônus.
+- Se ligar, o bônus aparece e volta a ser obrigatório.
+- Campo Código de acesso permanece removido.
 
-Como funciona:
-1. O vendedor entra no link.
-2. Digita o telefone/WhatsApp cadastrado.
-3. Se o telefone estiver na lista de membros autorizados, ele consegue votar.
-4. Se não estiver cadastrado, o sistema bloqueia.
+Como usar:
+1. Abra Área ADM.
+2. Entre na aba "Enquete".
+3. Use a chave "Bônus/meta nesta enquete".
+4. Clique em Salvar enquete se quiser manter a configuração.
 
 Substitua no GitHub:
 - index.html
