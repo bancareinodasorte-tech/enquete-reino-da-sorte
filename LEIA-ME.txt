@@ -1,11 +1,21 @@
-NOVO PROJ. ENQUETE — REFINADO SEM DUPLICAR BÔNUS
+PROJETO ENQUETE REINO DA SORTE — FINAL CORRIGIDO
 
-Correção:
-- Removido aviso duplicado de "Bônus/meta desativado".
-- Mantido apenas um aviso quando o bônus estiver desligado.
-- Mantida a chave Bônus/meta.
-- Mantido acesso sem código.
-- Mantidos painel ADM, contatos, votos, resultados e WhatsApp.
+Correção feita:
+- O campo "Código de acesso" já estava removido da tela.
+- O JavaScript ainda tentava ler esse campo inexistente.
+- Isso foi corrigido para o botão "Enviar meu voto" funcionar sem código.
+
+Mantido:
+- telefone como controle de acesso
+- painel ADM
+- membros
+- participantes
+- votos
+- resultados parciais
+- OCR
+- WhatsApp
+- imagens oficiais
+- estrutura da base enviada pelo usuário
 
 Substitua no GitHub:
 - index.html
