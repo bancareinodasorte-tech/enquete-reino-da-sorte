@@ -162,6 +162,34 @@ table{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}th,td{p
 }
 
 </style>
+
+<script>
+(function(){
+  try{
+    const pollKey = "reino_v39_poll_sorteios_real";
+    const ja = localStorage.getItem("reino_v39_sorteios_real_aplicada");
+    if(!ja){
+      const enqueteReal = {
+        id:"sorteios_real_"+Date.now(),
+        titulo:"Enquete Oficial — Reino da Sorte",
+        descricao:"Votação interna para vendedores. Escolha a melhor opção de sorteios.",
+        codigo:"REINO2026",
+        opcoes:[
+          {id:"op1",titulo:"Opção 1 — Terça, Quinta e Sábado",texto:"Terça-feira\nPrincipal R$ 1.000,00\n+3 Extras de R$ 50,00\n\nQuinta-feira\nPrincipal R$ 1.000,00\n+3 Extras de R$ 50,00\n\nSábado\nPrincipal R$ 2.000,00\n+3 Extras de R$ 100,00"},
+          {id:"op2",titulo:"Opção 2 — Quarta e Sábado",texto:"Quarta-feira\nPrincipal R$ 1.500,00\n+3 Extras de R$ 100,00\n\nSábado\nPrincipal R$ 2.500,00\n+3 Extras de R$ 100,00"}
+        ],
+        bonus:[
+          {id:"b1",texto:"1ª opção\n10b | 25% | Meta 45b\n(% conta do +35)"},
+          {id:"b2",texto:"2ª opção\n15b | 25% | Meta 75b\n(% conta do +60)"}
+        ]
+      };
+      localStorage.setItem(pollKey, JSON.stringify(enqueteReal));
+      localStorage.setItem("reino_v39_sorteios_real_aplicada", "sim");
+    }
+  }catch(e){}
+})();
+</script>
+
 </head>
 <body>
 <div class="app">
@@ -334,10 +362,10 @@ Ou tabela copiada com colunas Nome / Telefone / E-mail"></textarea>
 
 <script>
 const CONFIG_PADRAO={codigoAcesso:"REINO2026",senhaAdm:"1234"};
-const LS_VOTOS="reino_v36_votos";
+const LS_VOTOS="reino_v39_votos_sorteios_real";
 const LS_MEMBROS="reino_v36_membros";
-const LS_POLL="reino_v36_poll";
-const LS_ENVIO="reino_v36_envio";
+const LS_POLL="reino_v39_poll_sorteios_real";
+const LS_ENVIO="reino_v39_envio_sorteios_real";
 let votoSelecionado="",bonusSelecionado="";
 
 const enquetePadrao={

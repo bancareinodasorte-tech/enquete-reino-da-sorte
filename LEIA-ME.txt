@@ -1,4 +1,8 @@
-REINO DA SORTE — ENQUETE SORTEIOS ATUALIZADA
+REINO DA SORTE — ENQUETE SORTEIOS REAL FORÇADA
+
+Esta versão corrige o problema de aparecer a enquete antiga salva no celular.
+
+Ela força a enquete nova:
 
 Opção 1:
 Terça: R$ 1.000 + 3 extras de R$ 50
@@ -13,3 +17,5 @@ Substitua no GitHub:
 - index.html
 - logo-reino-da-sorte.jpeg
 - fundo-oficial.jpg
+
+Depois abra o link e atualize a página.
