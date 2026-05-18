@@ -1,21 +1,19 @@
-REINO DA SORTE — ENQUETE SORTEIOS REAL FORÇADA
+NOVO PROJ. ENQUETE — FINAL SEM CÓDIGO DE ACESSO
 
-Esta versão corrige o problema de aparecer a enquete antiga salva no celular.
+Alteração solicitada:
+- Removido o campo "Código de acesso".
+- Removida a validação por código.
+- Agora o controle principal é pelo telefone cadastrado na lista de membros.
+- Mantida a chave Bônus/meta.
+- Mantidos contatos, participantes, painel ADM, OCR, resultados, WhatsApp, faltantes e exportações.
 
-Ela força a enquete nova:
-
-Opção 1:
-Terça: R$ 1.000 + 3 extras de R$ 50
-Quinta: R$ 1.000 + 3 extras de R$ 50
-Sábado: R$ 2.000 + 3 extras de R$ 100
-
-Opção 2:
-Quarta: R$ 1.500 + 3 extras de R$ 100
-Sábado: R$ 2.500 + 3 extras de R$ 100
+Como funciona:
+1. O vendedor entra no link.
+2. Digita o telefone/WhatsApp cadastrado.
+3. Se o telefone estiver na lista de membros autorizados, ele consegue votar.
+4. Se não estiver cadastrado, o sistema bloqueia.
 
 Substitua no GitHub:
 - index.html
 - logo-reino-da-sorte.jpeg
 - fundo-oficial.jpg
-
-Depois abra o link e atualize a página.
